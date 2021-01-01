@@ -4,13 +4,11 @@ import matplotlib.pyplot as plt
 
 from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
-from deepnet_clean import (
-    initialize_parameters_deep, 
-    L_model_forward, 
-    compute_cost,
-    L_model_backward, 
-    optimize
-)
+from utils import initialize_parameters_deep
+from linear_layer import L_model_forward
+from loss_functions import compute_loss 
+from backwards.backward import L_model_backward
+from optimizers import optimize
 
 
 def L_layer_model(
@@ -58,7 +56,7 @@ def L_layer_model(
         # Forward propagation
         Y_hat, caches = L_model_forward(X, parameters)
         # Compute cost.
-        cost = compute_cost(Y_hat, Y, cost_function='BCE')
+        cost = compute_loss(Y_hat, Y, cost_function='BCE')
         # Backward propagation.
         grads = L_model_backward(Y_hat, Y, caches)
         # Update parameters.
