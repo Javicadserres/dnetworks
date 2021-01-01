@@ -41,26 +41,3 @@ def sigmoid_backward(grad_X, Z):
     grad_Z = grad_X * sig * (1 - sig)
     
     return grad_Z
-
-
-def bce_backward(Y_hat, Y):
-    """
-    Implementes the backward propagation for the binary cross entropy
-    funciton. 
-
-    Parameters
-    ----------
-    Y_hat : np.array
-        Predicted label.
-    Y : np.array
-        True "label".
-    
-    Returns
-    -------
-    grad : np.array
-        Gradient of the cost with respect to the loss function same
-        shape as Y_hat.
-    """
-    grad = - (np.divide(Y, Y_hat) - np.divide(1 - Y, 1 - Y_hat))
-
-    return grad
