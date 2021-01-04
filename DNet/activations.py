@@ -1,81 +1,59 @@
 import numpy as np 
 
 
-def sigmoid(Z):
+class ReLU:
     """
-    Computes the sigmoid for a given Z.
-
-    Parameters
-    ----------
-    Z : np.array
-
-    Returns
-    -------
-    sig : np.array
-        The sigmoid for the given Z values.
+    Returns the values for a given activation function.
     """
-    sig = 1 / (1 + np.exp(-Z))
+    def __init__(self, output_dim):
+        self.units = output_dim
+        self.type = 'ReLU'
 
-    return sig
+    def forward(self, Z):
+        """
+        Computes the RELU function for a given Z.
+        """
+        self.relu = np.maximum(0, Z)
+
+        return self.relu
+
+    def backward(self, dA):
+        """
+        Backward propagation ReLU.
+        """
+        dZ = np.where(self.relu <= 0, 0, dA)
+
+        return dZ
 
 
-def tanh(Z):
+class Sigmoid:
     """
-    Computes de hyperbolic tangent for a given Z.
-
-    Parameters
-    ----------
-    Z : np.array
-
-    Returns
-    -------
-    tan : np.array
-        The hyperbolic tangent for the given Z.
+    Returns the values for a given activation function.
     """
-    tan = np.tanh(Z)
+    def __init__(self, output_dim):
+        self.units = output_dim
+        self.type = 'Sigmoid'
 
-    return tan
+    def forward(self, Z):
+        """
+        Computes the RELU function for a given Z.
+        """
+        self.sigmoid = 1 / (1 + np.exp(- Z))
 
+        return self.sigmoid
 
-def relu(Z):
-    """
-    Computes the RELU function for a given Z.
+    def backward(self, dA):
+        """
+        Computes the backward propagation for Sigmoid.
+        """
+        dZ = dA * self.sigmoid * (1 - self.sigmoid)
 
-    Parameters
-    ----------
-    Z : np.array
+        return dZ
 
-    Returns
-    -------
-    rel : np.array
-    """
-    rel = np.maximum(0, Z)
+class Tanh:
+    def __init__(self):
+        pass
 
-    return rel
-
-
-def get_activation(Z, activation='relu'):
-    """
-    Returns the results for a given activation.
-
-    Parameters
-    ----------
-    Z : np.array
-    activation : str
-        String indicating the activation function to use. It can be
-        'relu', 'sigmoid', 'tanh'
-    
-    Returns
-    -------
-    act : np.array
-    """
-    if activation=='relu':
-        act = relu(Z)
-
-    elif activation=='tanh':
-        act = tanh(Z)
-    
-    elif activation=='sigmoid':
-        act = sigmoid(Z)
-
-    return act
+class LeakyReLU:
+    def __init__(self):
+        pass
