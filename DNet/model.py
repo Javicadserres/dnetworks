@@ -28,9 +28,8 @@ class NNet:
         """
         Compute cost.
         """
-        loss = method(self.pred, Y)
-        error = loss.forward()
-        self.grad = loss.backward()
+        error = method.forward(self.pred, Y)
+        self.grad = method.backward()
 
         return error 
 
@@ -41,10 +40,10 @@ class NNet:
         for layer in reversed(self.layers):
             self.grad = layer.backward(self.grad)
 
-    def optimize(self):
+    def optimize(self, method):
         """
         Optimize parameters.
         """
         for layer in reversed(self.layers):
             if layer.type == 'Linear': 
-                layer.optimize()
+                layer.optimize(method)

@@ -2,14 +2,16 @@ import numpy as np
 
 
 class BinaryCrossEntropyLoss:
-    def __init__(self, Y_hat, Y):
-        self.Y = Y
-        self.Y_hat = Y_hat
+    def __init__(self):
+        self.type = 'BCELoss'
     
-    def forward(self):
+    def forward(self, Y_hat, Y):
         """
         Forward BCELoss
         """
+        self.Y = Y
+        self.Y_hat = Y_hat
+
         m = len(self.Y)
 
         sub1 = np.dot(self.Y, np.log(self.Y_hat).T)
@@ -32,9 +34,69 @@ class BinaryCrossEntropyLoss:
 
 class MSELoss:
     def __init__(self):
-        pass
+        self.type = 'MSELoss'
+    
+    def forward(self, Y_hat, Y):
+        """
+        Forward MSELoss
+        """
+        self.Y = Y
+        self.Y_hat = Y_hat
+
+        se = np.power(self.Y_hat - self.Y, 2)
+        mse = np.mean(se)
+
+        return np.squeeze(mse)
+
+    def backward(self):
+        """
+        Backward MSELoss
+        """
+        grad = np.mean(2 * (self.Y_hat - self.Y))
+
+        return grad
 
 
 class MAELoss:
     def __init__(self):
+        self.type = 'MAELoss'
+    
+    def forward(self, Y_hat, Y):
+        """
+        Forward MAELoss
+        """
+        self.Y = Y
+        self.Y_hat = Y_hat
+
+        ae = np.abs(self.Y_hat - self.Y)
+        mae = np.mean(ae)
+
+        return np.squeeze(mae)
+
+    def backward(self):
+        """
+        Backward MAELoss
+        """
+        grad = np.sign(self.Y_hat - self.Y)
+
+        return grad
+
+
+class CrossEntropyLoss:
+    def __init__(self):
+        self.type = 'CELoss'
+    
+    def forward(self, Y_hat, Y):
+        """
+        Forward CELoss
+        """
+        self.Y = Y
+        self.Y_hat = Y_hat
+
+        pass
+
+    def backward(self):
+        """
+        Backward CELoss
+        """
         pass
