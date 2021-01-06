@@ -34,7 +34,7 @@ class LinearLayer:
         
         return dA
 
-    def optimize(self, method='SGD', lr=0.0075):
-        if method=='SGD':
-            self.weights = self.weights - lr * self.dW
-            self.bias = self.bias - lr * self.db
+    def optimize(self, method):
+        self.weights, self.bias = method.optim(
+            self.weights, self.bias, self.dW, self.db
+        )
