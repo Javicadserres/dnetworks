@@ -3,14 +3,24 @@ import numpy as np
 
 class ReLU:
     """
-    Returns the values for a given activation function.
+    Class for the ReLU activation function.
     """
     def __init__(self):
         self.type = 'ReLU'
 
     def forward(self, Z):
         """
-        Computes the RELU function for a given Z.
+        Computes the forward propagation.
+
+        Parameters
+        ----------
+        Z : numpy.array
+            Input of the ReLU function.
+
+        Returns
+        -------
+        A : numpy.array
+            Output of the ReLU function.
         """
         self.A = np.maximum(0, Z)
 
@@ -18,7 +28,17 @@ class ReLU:
 
     def backward(self, dA):
         """
-        Backward propagation ReLU.
+        Computes the backward propagation.
+
+        Parameters
+        ----------
+        dA : numpy.array
+            Gradients of the activation function output.
+
+        Returns
+        -------
+        dZ : numpy.array
+            Gradients of the activation function input.
         """
         dZ = dA * np.where(self.A <= 0, 0, 1)
 
@@ -27,14 +47,24 @@ class ReLU:
 
 class Sigmoid:
     """
-    Returns the values for a given activation function.
+    Class for the Sigmoid activation function.
     """
     def __init__(self):
         self.type = 'Sigmoid'
 
     def forward(self, Z):
         """
-        Computes the RELU function for a given Z.
+        Computes the forward propagation.
+
+        Parameters
+        ----------
+        Z : numpy.array
+            Input of the ReLU function.
+
+        Returns
+        -------
+        A : numpy.array
+            Output of the ReLU function.
         """
         self.A = 1 / (1 + np.exp(- Z))
 
@@ -42,7 +72,17 @@ class Sigmoid:
 
     def backward(self, dA):
         """
-        Computes the backward propagation for Sigmoid.
+        Computes the backward propagation.
+
+        Parameters
+        ----------
+        dA : numpy.array
+            Gradients of the activation function output.
+
+        Returns
+        -------
+        dZ : numpy.array
+            Gradients of the activation function input.
         """
         dZ = dA * self.A * (1 - self.A)
 
@@ -51,15 +91,24 @@ class Sigmoid:
 
 class Tanh:
     """
-    Returns the values for the hyperbolic tangent activation 
-    function.
+    Class for the Hyperbolic tangent activation function.
     """
     def __init__(self):
         self.type = 'Tanh'
 
     def forward(self, Z):
         """
-        Computes the Tanh function for a given Z.
+        Computes the forward propagation.
+
+        Parameters
+        ----------
+        Z : numpy.array
+            Input of the ReLU function.
+
+        Returns
+        -------
+        A : numpy.array
+            Output of the ReLU function.
         """
         self.A = np.tanh(Z)
 
@@ -67,7 +116,17 @@ class Tanh:
 
     def backward(self, dA):
         """
-        Backward propagation Tanh.
+        Computes the backward propagation.
+
+        Parameters
+        ----------
+        dA : numpy.array
+            Gradients of the activation function output.
+
+        Returns
+        -------
+        dZ : numpy.array
+            Gradients of the activation function input.
         """
         dZ = dA * (1 - np.power(self.A, 2))
 
@@ -76,14 +135,24 @@ class Tanh:
 
 class LeakyReLU:
     """
-    Returns the values for a given activation function.
+    Class for the LeakyReLU activation function.
     """
     def __init__(self):
         self.type = 'LeakyReLU'
 
     def forward(self, Z):
         """
-        Computes the Leaky ReLU function for a given Z.
+        Computes the forward propagation.
+
+        Parameters
+        ----------
+        Z : numpy.array
+            Input of the ReLU function.
+
+        Returns
+        -------
+        A : numpy.array
+            Output of the ReLU function.
         """
         self.A = np.maximum(0, Z)
 
@@ -91,7 +160,17 @@ class LeakyReLU:
 
     def backward(self, dA):
         """
-        Backward propagation Leaky ReLU.
+        Computes the backward propagation.
+
+        Parameters
+        ----------
+        dA : numpy.array
+            Gradients of the activation function output.
+
+        Returns
+        -------
+        dZ : numpy.array
+            Gradients of the activation function input.
         """
         dZ = dA * np.where(self.A <= 0, 0.01, 1)
 
@@ -100,14 +179,24 @@ class LeakyReLU:
 
 class Softmax:
     """
-    Returns the values for a given activation function.
+    Class for the Softmax activation function.
     """
     def __init__(self):
         self.type = 'Softmax'
 
     def forward(self, Z):
         """
-        Computes the RELU function for a given Z.
+        Computes the forward propagation.
+
+        Parameters
+        ----------
+        Z : numpy.array
+            Input of the ReLU function.
+
+        Returns
+        -------
+        A : numpy.array
+            Output of the ReLU function.
         """
         t = np.exp(Z)
         self.A =  t / np.sum(t) 
@@ -116,6 +205,16 @@ class Softmax:
 
     def backward(self, dA):
         """
-        Computes the backward propagation for Sigmoid.
+        Computes the backward propagation.
+
+        Parameters
+        ----------
+        dA : numpy.array
+            Gradients of the activation function output.
+
+        Returns
+        -------
+        dZ : numpy.array
+            Gradients of the activation function input.
         """
         pass
