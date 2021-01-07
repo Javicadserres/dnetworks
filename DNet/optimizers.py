@@ -1,5 +1,4 @@
 import numpy as np
-from utils import compute_opt_update
 
 
 class SGD:
@@ -41,20 +40,28 @@ class SGD:
         bias : numpy.array
             Updated bias of the given layer.
         """
-        if velocities is None:
-            V_dW, V_db = (0, 0)
-        else:
-            V_dW, V_db = velocities
+        if velocities is None: velocities = (0, 0)
 
-        V_dW = compute_opt_update(dW, self.beta, V_dW)
-        V_db = compute_opt_update(db, self.beta, V_db)
+        V_dW, V_db = self._update_velocities(
+            dW, db, self.beta, velocities
+        )
 
         weigths -= self.lr * V_dW
-        bias -= bias - self.lr * V_db
+        bias -= self.lr * V_db
 
-        velocities = (V_dW, V_db)
+        return weigths, bias, (V_dW, V_db)
 
-        return weigths, bias, velocities
+    def _update_velocities(self, dW, db, beta, velocities):
+        """
+        Updates the velocities of the derivates of the weights and 
+        bias.
+        """
+        V_dW, V_db = velocities
+
+        V_dW = beta * V_dW + (1 - beta) * dW
+        V_db = beta * V_db + (1 - beta) * db
+
+        return V_dW, V_db
 
 
 class RMSprop:
@@ -99,20 +106,27 @@ class RMSprop:
             Tuple containing the square to compute the gradient
             descent with momentum.
         """
-        if squares is None:
-            S_dW, S_db = (0, 0)
-        else:
-            S_dW, S_db = squares
+        if squares is None: squares = (0, 0)
 
-        S_dW = compute_opt_update(np.power(dW, 2), self.beta, S_dW)
-        S_db = compute_opt_update(np.power(db, 2), self.beta, S_db)
+        S_dW, S_db = self._update_squares(
+            dW, db, self.beta, squares
+        )
 
         weigths -= self.lr * dW / np.sqrt(S_dW)
         bias -= self.lr * db / np.sqrt(S_db)
 
-        squares = (S_dW, S_db)
+        return weigths, bias, (S_dW, S_db)
 
-        return weigths, bias, squares
+    def _update_squares(self, dW, db, beta, squares):
+        """
+        Updates the squares of the derivates of the weights and bias.
+        """
+        S_dW, S_db = squares
+
+        S_dW = beta * S_dW + (1 - beta) * np.power(dW, 2)
+        S_db = beta * S_db + (1 - beta) * np.power(db, 2)
+
+        return S_dW, S_db
 
 
 class Adam:
@@ -132,7 +146,6 @@ class Adam:
         self.betas = betas
         self.lr = lr
         self.epsilon = epsilon
-
 
     def optim(self, weigths, bias, dW, db, vel_square=None):
         """
@@ -164,23 +177,56 @@ class Adam:
         
         beta1, beta2 = self.betas
 
-        V_dW = compute_opt_update(dW, beta1, V_dW)
-        V_dW_c = V_dW / (1 - np.power(beta1, epoch))
+        # update and correct velocities
+        V_dW, V_db = self._update_velocities(
+            dW, db, beta1, (V_dW, V_db)
+        )
+        V_dW_c, V_db_c = self._correct_update(V_dW, V_db, beta1, epoch)
 
-        V_db = compute_opt_update(db, beta1, V_db)
-        V_db_c = V_db / (1 - np.power(beta1, epoch))
+        # update and correct squares
+        S_dW, S_db = self._update_squares(
+            dW, db, beta2, (S_dW, S_db)
+        )
+        S_dW_c, S_db_c = self._correct_update(S_dW, S_db, beta2, epoch)
 
-        S_dW = compute_opt_update(np.power(dW, 2), beta2, S_dW)
-        S_dW_c = S_dW / (1 - np.power(beta2, epoch))
-
-        S_db = compute_opt_update(np.power(db, 2), beta2, S_db)
-        S_db_c = S_db / (1 - np.power(beta2, epoch))
-
+        # update parameters
         weigths -= self.lr * V_dW_c / (np.sqrt(S_dW_c) + self.epsilon)
         bias -= self.lr * V_db_c / (np.sqrt(S_db_c) + self.epsilon)
 
         epoch += 1
-
         vel_square = (V_dW, V_db, S_dW, S_db, epoch)
 
         return weigths, bias, vel_square
+
+    def _update_velocities(self, dW, db, beta, velocities):
+        """
+        Updates the velocities of the derivates of the weights and 
+        bias.
+        """
+        V_dW, V_db = velocities
+
+        V_dW = beta * V_dW + (1 - beta) * dW
+        V_db = beta * V_db + (1 - beta) * db
+
+        return V_dW, V_db
+
+    def _update_squares(self, dW, db, beta, squares):
+        """
+        Updates the squares of the derivates of the weights and bias.
+        """
+        S_dW, S_db = squares
+
+        S_dW = beta * S_dW + (1 - beta) * np.power(dW, 2)
+        S_db = beta * S_db + (1 - beta) * np.power(db, 2)
+
+        return S_dW, S_db
+
+    def _correct_update(self, uptdate_w, update_b, beta, epoch):
+        """
+        Corrects the updates made for the velocities and squares of 
+        the derivatives of the weights and bias.
+        """
+        cor_update_w = uptdate_w / (1 - np.power(beta, epoch))
+        cor_update_b = update_b / (1 - np.power(beta, epoch))
+
+        return cor_update_w, cor_update_b
