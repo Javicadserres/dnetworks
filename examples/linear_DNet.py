@@ -7,7 +7,7 @@ from model import NNet
 from layers import LinearLayer
 from activations import ReLU, Sigmoid, LeakyReLU, Tanh
 from loss import BinaryCrossEntropyLoss
-from optimizers import SGD
+from optimizers import SGD, RMSprop, Adam
 
 # initialize the parameters of the dataset
 n_samples = 10000
@@ -40,7 +40,7 @@ model.add(Sigmoid())
 
 # set the loss functions and the optimize method
 loss = BinaryCrossEntropyLoss()
-optim = SGD(lr=0.0075)
+optim = Adam()
 
 # Train the model
 costs = []
