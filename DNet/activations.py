@@ -183,6 +183,7 @@ class Softmax:
     """
     def __init__(self):
         self.type = 'Softmax'
+        self.eps = 1e-15
 
     def forward(self, Z):
         """
@@ -198,8 +199,10 @@ class Softmax:
         A : numpy.array
             Output of the ReLU function.
         """
-        t = np.exp(Z)
-        self.A =  t / np.sum(t) 
+        self.Z = Z
+
+        t = np.exp(Z - np.max(Z, axis=0))
+        self.A =  t / np.sum(t, axis=0, keepdims=True)
 
         return self.A
 
@@ -217,4 +220,12 @@ class Softmax:
         dZ : numpy.array
             Gradients of the activation function input.
         """
-        pass
+        n, m = self.A.shape
+
+        matrix_a = self.A * self.A
+        matrix_b = np.dot(np.diag(np.ones(n)), self.A)
+
+        dSoftmax = matrix_b - matrix_a
+        dZ = dSoftmax * dA
+        
+        return dZ

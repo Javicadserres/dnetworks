@@ -91,7 +91,7 @@ class MSELoss:
         grad : numpy.array
             Array containg the gradients of the weights.
         """
-        grad = np.mean(2 * (self.Y_hat - self.Y))
+        grad = 2 * (self.Y_hat - self.Y)
 
         return grad
 
@@ -141,20 +141,45 @@ class MAELoss:
 
 
 class CrossEntropyLoss:
+    """
+    Class that implements the Mean Absolute Error loss function.
+    """
     def __init__(self):
         self.type = 'CELoss'
+        self.eps = 1e-15
     
     def forward(self, Y_hat, Y):
         """
-        Forward CELoss
+        Computes the forward propagation.
+
+        Parameters
+        ----------
+        Y_hat : numpy.array
+            Array containing the predictions.
+        Y : numpy.array
+            Array with the real labels.
+        
+        Returns
+        -------
+        Numpy.arry containing the cost.
         """
         self.Y = Y
         self.Y_hat = Y_hat
 
-        pass
+        loss = - np.sum(Y * np.log(Y_hat + self.eps), axis=0)
+        cost = np.mean(loss)
+
+        return np.squeeze(cost) 
 
     def backward(self):
         """
-        Backward CELoss
+        Computes the backward propagation.
+
+        Returns
+        -------
+        grad : numpy.array
+            Array containg the gradients of the weights.
         """
-        pass
+        grad = np.subtract(self.Y_hat, self.Y)
+        
+        return grad

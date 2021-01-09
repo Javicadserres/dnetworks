@@ -28,23 +28,3 @@ def initialize_parameters(input_dim, output_dim):
     bias = np.zeros((output_dim, 1))
 
     return weights, bias
-
-
-def compute_opt_update(gradient, beta, opt):
-    """
-    Returns the updated optimization value using momentum in the 
-    optimization algorithm.
-
-    Paramters
-    ---------
-    gradient : numpy.array
-    beta : int
-    opt : numpy.array
-
-    Returns
-    -------
-    opt : numpy.array
-    """
-    opt = beta * opt + (1 - beta) * gradient
-
-    return opt
