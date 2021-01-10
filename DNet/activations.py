@@ -222,10 +222,10 @@ class Softmax:
         """
         n, m = self.A.shape
 
-        matrix_a = self.A * self.A
-        matrix_b = np.dot(np.diag(np.ones(n)), self.A)
+        matrix1 = np.einsum('ji,ki->jki', self.A, self.A) 
+        matrix2 = np.einsum('ji,jk->jki', self.A, np.eye(n, n))
 
-        dSoftmax = matrix_b - matrix_a
-        dZ = dSoftmax * dA
+        dSoftmax = matrix2 - matrix1
+        dZ = np.einsum('jki,ki->ji', dSoftmax, dA)
         
         return dZ
