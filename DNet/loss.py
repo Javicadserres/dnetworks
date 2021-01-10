@@ -77,7 +77,7 @@ class MSELoss:
         self.Y = Y
         self.Y_hat = Y_hat
 
-        se = np.power(self.Y_hat - self.Y, 2)
+        se = np.power(self.Y - self.Y_hat, 2)
         mse = np.mean(se)
 
         return np.squeeze(mse)
@@ -91,7 +91,7 @@ class MSELoss:
         grad : numpy.array
             Array containg the gradients of the weights.
         """
-        grad = 2 * (self.Y_hat - self.Y)
+        grad = - 2 * (self.Y - self.Y_hat) 
 
         return grad
 
@@ -121,7 +121,7 @@ class MAELoss:
         self.Y = Y
         self.Y_hat = Y_hat
 
-        ae = np.abs(self.Y_hat - self.Y)
+        ae = np.abs(self.Y - self.Y_hat)
         mae = np.mean(ae)
 
         return np.squeeze(mae)
@@ -135,7 +135,7 @@ class MAELoss:
         grad : numpy.array
             Array containg the gradients of the weights.
         """
-        grad = np.sign(self.Y_hat - self.Y)
+        grad = - np.sign(self.Y - self.Y_hat)
 
         return grad
 
@@ -166,8 +166,8 @@ class CrossEntropyLoss:
         self.Y = Y
         self.Y_hat = Y_hat
 
-        loss = - np.sum(Y * np.log(Y_hat + self.eps), axis=0)
-        cost = np.mean(loss)
+        loss = - Y * np.log(Y_hat)
+        cost = np.sum(loss, axis=0).mean()
 
         return np.squeeze(cost) 
 
@@ -180,6 +180,6 @@ class CrossEntropyLoss:
         grad : numpy.array
             Array containg the gradients of the weights.
         """
-        grad = np.subtract(self.Y_hat, self.Y)
+        grad = self.Y_hat - self.Y
         
         return grad
