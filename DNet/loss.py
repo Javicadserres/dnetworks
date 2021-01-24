@@ -165,11 +165,20 @@ class CrossEntropyLoss:
         """
         self.Y = Y
         self.Y_hat = Y_hat
+        self.m = Y.shape[-1]
 
-        loss = - Y * np.log(Y_hat)
-        cost = np.sum(loss, axis=0).mean()
+        t = np.exp(self.Y_hat - np.max(self.Y_hat, axis=0))
+        self.A =  t / np.sum(t, axis=0, keepdims=True)
 
-        return np.squeeze(cost) 
+        # loss = - Y * np.log(self.A)
+        # cost = np.sum(loss, axis=0).mean()
+
+        # return np.squeeze(cost) 
+
+        log_likelihood = -np.log(self.A[self.Y, range(self.m)])
+        loss = np.sum(log_likelihood) / self.m
+
+        return np.squeeze(loss)
 
     def backward(self):
         """
@@ -180,6 +189,10 @@ class CrossEntropyLoss:
         grad : numpy.array
             Array containg the gradients of the weights.
         """
-        grad = self.Y_hat - self.Y
+        # grad = self.Y_hat - self.Y
         
-        return grad
+        # return grad
+        
+        self.A[self.Y, range(self.m)] -= 1
+
+        return self.A

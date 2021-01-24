@@ -31,24 +31,23 @@ def one_hot_encoding(Y):
 x_train, x_test, y_train, y_test = train_test_split(
     images, target, test_size=0.4, random_state=1
 )
-y_train = one_hot_encoding(y_train)
+# y_train = one_hot_encoding(y_train)
 
 # Initialize the model
 model = NNet()
 
 # Create the model structure
-model.add(Conv2D(1, 1, kernel_size=(3, 3), stride=1, padding=0))
-model.add(MaxPooling2D(kernel_size=(3, 3), stride=1, padding=0))
+model.add(Conv2D(1, 1, kernel_size=(2, 2), stride=1, padding=0))
+model.add(MaxPooling2D(kernel_size=(2, 2), stride=1, padding=0))
 model.add(ReLU())
 
 model.add(Flatten())
 
-model.add(LinearLayer(16, 10))
-model.add(Softmax())
+model.add(LinearLayer(36, 10))
 
 # set the loss functions and the optimize method
 loss = CrossEntropyLoss()
-optim = Adam(lr=0.003)
+optim = Adam(lr=0.05)
 
 # Train the model
 costs = []
