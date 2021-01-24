@@ -46,6 +46,7 @@ class MaxPooling2D:
         Z : numpy.array
             Convolution output.
         """
+        A = A.T
         self.A = A
         (
             self.m, 
@@ -65,7 +66,7 @@ class MaxPooling2D:
         )
         self.Z = out.transpose(2, 3, 0, 1)
 
-        return self.Z
+        return self.Z.T
 
     def backward(self, dA):
         """
@@ -82,13 +83,14 @@ class MaxPooling2D:
         dZ : numpy.array
             The gradient of the convolutional layer.
         """
+        dA = dA.T
         dA_flat = dA.transpose(2, 3, 0, 1).ravel()
         back_A_resize = (self.A_resize == dA_flat) * dA_flat
 
         dZ = self._resize_matrix(back_A_resize)
         dZ = dZ.reshape(self.A.shape)
 
-        return dZ
+        return dZ.T
 
     def _get_size_out(self):
         """

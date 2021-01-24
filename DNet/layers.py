@@ -37,7 +37,7 @@ class LinearLayer:
         self.m = A.shape[-1]
         self.A = A.reshape(-1, self.m)
         
-        self.Z = self.weights.dot(A) + self.bias
+        self.Z = self.weights.dot(self.A) + self.bias
 
         return self.Z
 

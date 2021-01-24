@@ -58,6 +58,7 @@ class Conv2D:
         Z : numpy.array
             Convolution output.
         """
+        A = A.T
         self.m, _, self.in_height, self.in_width = A.shape
 
         self.A_resize = self._resize_image(A)
@@ -69,7 +70,7 @@ class Conv2D:
         )
         self.Z = out.transpose(3, 0, 1, 2)
 
-        return self.Z
+        return self.Z.T
 
     def backward(self, dZ):
         """
@@ -86,6 +87,7 @@ class Conv2D:
         dA : numpy.array
             The gradient of the convolutional layer.
         """
+        dZ = dZ.T
         # bias
         self.db = np.sum(dZ, axis=(0, 2, 3))
         self.db = self.db.reshape(self.out_channels, -1)
@@ -102,7 +104,7 @@ class Conv2D:
         dA_resize = np.dot(weight_resize.T, dZ_resize)
         dA = self._resize_matrix(dA_resize)
 
-        return dA
+        return dA.T
 
     def optimize(self, method):
         """

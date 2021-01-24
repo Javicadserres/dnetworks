@@ -10,6 +10,7 @@ from loss import CrossEntropyLoss
 from optimizers import SGD, RMSprop, Adam
 from convent import Conv2D
 from pooling_layers import MaxPooling2D
+from flatten_layer import Flatten
 
 digits = load_digits()
 images = digits.images
@@ -36,11 +37,13 @@ y_train = one_hot_encoding(y_train)
 model = NNet()
 
 # Create the model structure
-model.add(Conv2D(1, 1, kernel_size=(2, 2), stride=1, padding=0))
-model.add(MaxPooling2D(kernel_size=(2, 2), stride=1, padding=0))
+model.add(Conv2D(1, 1, kernel_size=(3, 3), stride=1, padding=0))
+model.add(MaxPooling2D(kernel_size=(3, 3), stride=1, padding=0))
 model.add(ReLU())
 
-model.add(LinearLayer(4, 3))
+model.add(Flatten())
+
+model.add(LinearLayer(16, 10))
 model.add(Softmax())
 
 # set the loss functions and the optimize method
@@ -51,7 +54,7 @@ optim = Adam(lr=0.003)
 costs = []
 
 for epoch in range(4000):
-    model.forward(x_train)
+    model.forward(x_train.T)
     cost = model.cost(y_train.T, loss)
     model.backward()
     model.optimize(optim)
