@@ -12,8 +12,8 @@ class ConstantPad:
         X : np.array
             Input
         padding : int, tuple
-            The size of the padding. If is int, uses the same padding in 
-            all boundaries.
+            The size of the padding. If is int, uses the same padding
+            in all boundaries.
         dim : int
             Dimension of the pad. 
         constant : int, defualt=0

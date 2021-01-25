@@ -1,4 +1,5 @@
 import numpy as np 
+from activations import Softmax
 
 
 class BinaryCrossEntropyLoss:
@@ -147,6 +148,7 @@ class CrossEntropyLoss:
     def __init__(self):
         self.type = 'CELoss'
         self.eps = 1e-15
+        self.softmax = Softmax()
     
     def forward(self, Y_hat, Y):
         """
@@ -164,21 +166,12 @@ class CrossEntropyLoss:
         Numpy.arry containing the cost.
         """
         self.Y = Y
-        self.Y_hat = Y_hat
-        self.m = Y.shape[-1]
+        self.Y_hat = self.softmax.forward(Y_hat)
 
-        t = np.exp(self.Y_hat - np.max(self.Y_hat, axis=0))
-        self.A =  t / np.sum(t, axis=0, keepdims=True)
+        loss = - Y * np.log(self.Y_hat)
+        cost = np.sum(loss, axis=0).mean()
 
-        # loss = - Y * np.log(self.A)
-        # cost = np.sum(loss, axis=0).mean()
-
-        # return np.squeeze(cost) 
-
-        log_likelihood = -np.log(self.A[self.Y, range(self.m)])
-        loss = np.sum(log_likelihood) / self.m
-
-        return np.squeeze(loss)
+        return np.squeeze(cost) 
 
     def backward(self):
         """
@@ -189,10 +182,6 @@ class CrossEntropyLoss:
         grad : numpy.array
             Array containg the gradients of the weights.
         """
-        # grad = self.Y_hat - self.Y
+        grad = self.Y_hat - self.Y
         
-        # return grad
-        
-        self.A[self.Y, range(self.m)] -= 1
-
-        return self.A
+        return grad

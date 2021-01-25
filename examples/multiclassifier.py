@@ -5,7 +5,7 @@ from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from model import NNet
 from layers import LinearLayer
-from activations import ReLU, Sigmoid, LeakyReLU, Tanh, Softmax
+from activations import ReLU, Sigmoid, LeakyReLU
 from loss import BinaryCrossEntropyLoss, CrossEntropyLoss
 from optimizers import SGD, RMSprop, Adam
 
@@ -41,7 +41,6 @@ model.add(LinearLayer(x.shape[1], 5))
 model.add(Sigmoid())
  
 model.add(LinearLayer(5, 3))
-model.add(Softmax())
 
 # set the loss functions and the optimize method
 loss = CrossEntropyLoss()

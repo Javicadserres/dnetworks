@@ -1,5 +1,5 @@
 import numpy as np
-from padding_layers import ConstantPad
+from layers.padding_layers import ConstantPad
 
 
 class MaxPooling2D:
@@ -270,6 +270,7 @@ class AveragePooling2D:
         Z : numpy.array
             Convolution output.
         """
+        A = A.T
         self.A = A
         (
             self.m, 
@@ -289,7 +290,7 @@ class AveragePooling2D:
         )
         self.Z = out.transpose(2, 3, 0, 1)
 
-        return self.Z
+        return self.Z.T
 
     def backward(self, dA):
         """
@@ -306,6 +307,7 @@ class AveragePooling2D:
         dZ : numpy.array
             The gradient of the convolutional layer.
         """
+        dA = dA.T
         dA_flat = dA.transpose(2, 3, 0, 1).ravel()
         equal_weight = dA_flat / (self.k_height * self.k_width)
 
@@ -314,7 +316,7 @@ class AveragePooling2D:
         dZ = self._resize_matrix(back_A_resize)
         dZ = dZ.reshape(self.A.shape)
 
-        return dZ
+        return dZ.T
 
     def _get_size_out(self):
         """
