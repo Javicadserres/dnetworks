@@ -1,7 +1,8 @@
 import numpy as np 
+from module import Base
 
 
-class ReLU:
+class ReLU(Base):
     """
     Class for the ReLU activation function.
     """
@@ -45,7 +46,7 @@ class ReLU:
         return dZ
 
 
-class Sigmoid:
+class Sigmoid(Base):
     """
     Class for the Sigmoid activation function.
     """
@@ -89,7 +90,7 @@ class Sigmoid:
         return dZ
 
 
-class Tanh:
+class Tanh(Base):
     """
     Class for the Hyperbolic tangent activation function.
     """
@@ -133,7 +134,7 @@ class Tanh:
         return dZ
 
 
-class LeakyReLU:
+class LeakyReLU(Base):
     """
     Class for the LeakyReLU activation function.
     """
@@ -177,7 +178,7 @@ class LeakyReLU:
         return dZ
 
 
-class Softmax:
+class Softmax(Base):
     """
     Class for the Softmax activation function.
     """

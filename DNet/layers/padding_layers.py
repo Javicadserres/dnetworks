@@ -5,12 +5,10 @@ class ConstantPad:
     """
     Pads the input tensor boundaries with a constant value.
     """
-    def __init__(self, X, padding, dim, constant):
+    def __init__(self, padding, dim, constant):
         """
         Parameters
         ----------
-        X : np.array
-            Input
         padding : int, tuple
             The size of the padding. If is int, uses the same padding
             in all boundaries.
@@ -19,16 +17,28 @@ class ConstantPad:
         constant : int, defualt=0
             The constant to add to the boundries.
         """
-        padding = self._int2tuple(padding)
-        tuples = self._get_tuples(X, padding, dim)
+        self.padding = self._int2tuple(padding)
+        self.dim = dim
+        self.constant = constant
 
-        self.padded = np.pad(
-            X, tuples, mode='constant', constant_values=constant
-        ) 
-    def pad(self):
+    def pad(self, X):
         """
         Returns input padded.
+
+        Parameters
+        ----------
+        X : np.array
+            Input
         """
+        self.tuples = self._get_tuples(X, self.padding, self.dim)
+
+        self.padded = np.pad(
+            X, 
+            self.tuples, 
+            mode='constant', 
+            constant_values=self.constant
+        ) 
+
         return self.padded
    
     def _int2tuple(self, padding):

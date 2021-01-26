@@ -4,13 +4,13 @@ import matplotlib.pyplot as plt
 from sklearn.datasets import load_digits
 from sklearn.model_selection import train_test_split
 from model import NNet
-from layers.layers import LinearLayer
+from layers.linear_layers import LinearLayer
 from activations import ReLU
 from loss import CrossEntropyLoss
 from optimizers import Adam
-from layers.convent import Conv2D
+from layers.convolutional_layers import Conv2D
 from layers.pooling_layers import MaxPooling2D, AveragePooling2D
-from layers.flatten_layer import Flatten
+from layers.flatten_layers import Flatten
 
 digits = load_digits()
 images = digits.images

@@ -1,8 +1,10 @@
 import numpy as np 
+
+from module import Base
 from activations import Softmax
 
 
-class BinaryCrossEntropyLoss:
+class BinaryCrossEntropyLoss(Base):
     """
     Class that implements the Binary Cross Entropy loss function.
     """
@@ -53,7 +55,7 @@ class BinaryCrossEntropyLoss:
         return grad
 
 
-class MSELoss:
+class MSELoss(Base):
     """
     Class that implements the Mean Squared Error loss function.
     """
@@ -97,7 +99,7 @@ class MSELoss:
         return grad
 
 
-class MAELoss:
+class MAELoss(Base):
     """
     Class that implements the Mean Absolute Error loss function.
     """
@@ -141,7 +143,7 @@ class MAELoss:
         return grad
 
 
-class CrossEntropyLoss:
+class CrossEntropyLoss(Base):
     """
     Class that implements the Mean Absolute Error loss function.
     """

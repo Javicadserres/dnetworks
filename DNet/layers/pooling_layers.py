@@ -136,9 +136,9 @@ class MaxPooling2D:
         """
         # pad image
         constpad = ConstantPad(
-            A, self.padding, dim=2, constant=self.padding_constant
+            self.padding, dim=2, constant=self.padding_constant
         )
-        A_padded = constpad.pad()
+        A_padded = constpad.pad(A)
         # resize image
         channels_i, height_i, width_i = self._index_resize(A)
         A_resize = A_padded[:, channels_i, height_i, width_i]
@@ -362,9 +362,9 @@ class AveragePooling2D:
         """
         # pad image
         constpad = ConstantPad(
-            A, self.padding, dim=2, constant=self.padding_constant
+            self.padding, dim=2, constant=self.padding_constant
         )
-        A_padded = constpad.pad()
+        A_padded = constpad.pad(A)
         # resize image
         channels_i, height_i, width_i = self._index_resize(A)
         A_resize = A_padded[:, channels_i, height_i, width_i]

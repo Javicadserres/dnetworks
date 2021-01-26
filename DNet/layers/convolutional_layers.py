@@ -192,9 +192,9 @@ class Conv2D:
         """
         # pad image
         constpad = ConstantPad(
-            A, self.padding, dim=2, constant=self.padding_constant
+            self.padding, dim=2, constant=self.padding_constant
         )
-        A_padded = constpad.pad()
+        A_padded = constpad.pad(A)
         # resize image
         channels_i, height_i, width_i = self._index_resize()
         new_shape = self.k_height * self.k_width * self.in_channels

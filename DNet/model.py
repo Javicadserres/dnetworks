@@ -1,6 +1,7 @@
 "Model Class"
+from module import Base
 
-class NNet:
+class NNet(Base):
     """
     Class containing the structure to create a model.
     """
