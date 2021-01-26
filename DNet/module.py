@@ -1,5 +1,11 @@
 "Main class"
 
-class Module:
+class Base:
     def __init__(self):
+        pass
+
+    def forward(self):
+        pass
+
+    def backward(self):
         pass

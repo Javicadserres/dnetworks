@@ -1,6 +1,7 @@
 "Model Class"
+from module import Base
 
-class NNet:
+class NNet(Base):
     """
     Class containing the structure to create a model.
     """
@@ -107,5 +108,5 @@ class NNet:
         >>> model.optimize(optim)
         """
         for layer in reversed(self.layers):
-            if layer.type == 'Linear': 
+            if layer.type in ['Linear', 'Convolutional']: 
                 layer.optimize(method)

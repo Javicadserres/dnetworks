@@ -1,7 +1,10 @@
 import numpy as np 
 
+from module import Base
+from activations import Softmax
 
-class BinaryCrossEntropyLoss:
+
+class BinaryCrossEntropyLoss(Base):
     """
     Class that implements the Binary Cross Entropy loss function.
     """
@@ -52,7 +55,7 @@ class BinaryCrossEntropyLoss:
         return grad
 
 
-class MSELoss:
+class MSELoss(Base):
     """
     Class that implements the Mean Squared Error loss function.
     """
@@ -96,7 +99,7 @@ class MSELoss:
         return grad
 
 
-class MAELoss:
+class MAELoss(Base):
     """
     Class that implements the Mean Absolute Error loss function.
     """
@@ -140,13 +143,14 @@ class MAELoss:
         return grad
 
 
-class CrossEntropyLoss:
+class CrossEntropyLoss(Base):
     """
     Class that implements the Mean Absolute Error loss function.
     """
     def __init__(self):
         self.type = 'CELoss'
         self.eps = 1e-15
+        self.softmax = Softmax()
     
     def forward(self, Y_hat, Y):
         """
@@ -164,9 +168,9 @@ class CrossEntropyLoss:
         Numpy.arry containing the cost.
         """
         self.Y = Y
-        self.Y_hat = Y_hat
+        self.Y_hat = self.softmax.forward(Y_hat)
 
-        loss = - Y * np.log(Y_hat)
+        loss = - Y * np.log(self.Y_hat)
         cost = np.sum(loss, axis=0).mean()
 
         return np.squeeze(cost) 

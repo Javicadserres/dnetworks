@@ -1,22 +1,23 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from sklearn.datasets import load_iris
+from sklearn.datasets import load_digits
 from sklearn.model_selection import train_test_split
 from model import NNet
 from layers.linear_layers import LinearLayer
-from activations import ReLU, Sigmoid, LeakyReLU
-from loss import BinaryCrossEntropyLoss, CrossEntropyLoss
-from optimizers import SGD, RMSprop, Adam
+from activations import ReLU
+from loss import CrossEntropyLoss
+from optimizers import Adam
+from layers.convolutional_layers import Conv2D
+from layers.pooling_layers import MaxPooling2D, AveragePooling2D
+from layers.flatten_layers import Flatten
 
-# initialize the parameters of the dataset
-n_samples = 10000
-n_classes = 5
-rand = 1
+digits = load_digits()
+images = digits.images
+m, h, w = images.shape
+images = images.reshape(m, 1, h, w)
 
-# Create the dataset
-x, y = load_iris(return_X_y=True)
-
+target = digits.target
 
 def one_hot_encoding(Y):
     """
@@ -28,28 +29,33 @@ def one_hot_encoding(Y):
     return one_hot
 
 x_train, x_test, y_train, y_test = train_test_split(
-    x, y, test_size=0.4, random_state=rand
+    images, target, test_size=0.4, random_state=1
 )
-
 y_train = one_hot_encoding(y_train)
 
 # Initialize the model
 model = NNet()
 
 # Create the model structure
-model.add(LinearLayer(x.shape[1], 5))
-model.add(Sigmoid())
- 
-model.add(LinearLayer(5, 3))
+model.add(Conv2D(1, 2, kernel_size=(2, 2), stride=2, padding=1))
+model.add(AveragePooling2D(kernel_size=(2, 2), stride=1, padding=1))
+model.add(ReLU())
+
+model.add(Conv2D(2, 1, kernel_size=(2, 2), stride=1, padding=0))
+model.add(AveragePooling2D(kernel_size=(2, 2), stride=1, padding=0))
+model.add(ReLU())
+
+model.add(Flatten())
+model.add(LinearLayer(16, 10))
 
 # set the loss functions and the optimize method
 loss = CrossEntropyLoss()
-optim = Adam(lr=0.003)
+optim = Adam(lr=0.05)
 
 # Train the model
 costs = []
 
-for epoch in range(4000):
+for epoch in range(10000):
     model.forward(x_train.T)
     cost = model.cost(y_train.T, loss)
     model.backward()
@@ -60,7 +66,7 @@ for epoch in range(4000):
         costs.append(cost)
 
 # plot the loss evolution
-plt.plot(np.squeeze(costs))
+plt.plot(np.squeeze(costs)[1:])
 plt.ylabel('cost')
 plt.xlabel('iterations (per hundreds)')
 plt.show()
