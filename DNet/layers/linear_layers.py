@@ -1,7 +1,8 @@
 import numpy as np
+from module import Base
 
 
-class LinearLayer:
+class LinearLayer(Base):
     """
     Class that implements a Linear layer.
     """
@@ -18,11 +19,10 @@ class LinearLayer:
             Dimensions of the output.
         """
         self.weights, self.bias = self._initialize_parameters(
-            input_dim, output_dim
-        )
+                input_dim, output_dim
+            )
+        self.oparams = None
         self.type = 'Linear'  
-        self.oparams = None  
-        self.Z = None 
     
     def forward(self, A):
         """

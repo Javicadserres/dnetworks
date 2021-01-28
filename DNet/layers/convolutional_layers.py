@@ -1,8 +1,8 @@
 import numpy as np
-from layers.padding_layers import ConstantPad
+from layers.layer import ConvBase
 
 
-class Conv2D:
+class Conv2D(ConvBase):
     """
     Applies a 2D convolution over an input signal composed of several
     input planes.
@@ -32,16 +32,15 @@ class Conv2D:
         padding_constant : int, default=0
             Number added to the pad. 
         """
-        self.in_channels = in_channels
-        self.out_channels = out_channels
-        self.k_height, self.k_width = kernel_size
-        self.stride = stride
-        self.padding = padding
-        self.padding_constant = padding_constant
-        self.weights, self.bias = self._initalize_parameters(
-            in_channels, out_channels
+        super(Conv2D, self).__init__(
+            kernel_size, stride, padding, padding_constant
+        )
+        self.weights, self.bias = self._initialize_parameters(
+                in_channels, out_channels
         )
         self.oparams = None
+        self.in_channels = in_channels
+        self.out_channels = out_channels
         self.type = 'Convolutional'  
     
     def forward(self, A):
@@ -58,10 +57,9 @@ class Conv2D:
         Z : numpy.array
             Convolution output.
         """
-        A = A.T
-        self.m, _, self.in_height, self.in_width = A.shape
+        super(Conv2D, self).forward(A)
 
-        self.A_resize = self._resize_image(A)
+        self.A_resize = self._resize_image(self.A)
         weghts_resize = self.weights.reshape(self.out_channels, -1)
 
         out = np.add(np.dot(weghts_resize, self.A_resize), self.bias)
@@ -87,12 +85,12 @@ class Conv2D:
         dA : numpy.array
             The gradient of the convolutional layer.
         """
-        dZ = dZ.T
+        super(Conv2D, self).backward(dZ)
         # bias
-        self.db = np.sum(dZ, axis=(0, 2, 3))
+        self.db = np.sum(self.dZ, axis=(0, 2, 3))
         self.db = self.db.reshape(self.out_channels, -1)
 
-        dZ_resize = dZ.transpose(1, 2, 3, 0)
+        dZ_resize = self.dZ.transpose(1, 2, 3, 0)
         dZ_resize = dZ_resize.reshape(self.out_channels, -1)
 
         # weights
@@ -119,7 +117,7 @@ class Conv2D:
             self.weights, self.bias, self.dW, self.db, self.oparams
         )
 
-    def _initalize_parameters(self, in_channels, out_channels):
+    def _initialize_parameters(self, in_channels, out_channels):
         """
         Initialize parameters of the convolutional layer.
 
@@ -147,135 +145,3 @@ class Conv2D:
         bias = np.zeros((out_channels, 1))
 
         return weights, bias
-
-    def _get_size_out(self):
-        """
-        Get the new size of the ouput given the kernel size, padding,
-        and stride parameters of the convolutional layer.
-
-        Returns
-        -------
-        out_height :  int
-        out_width : int
-        """
-        den = (2 * self.padding + self.stride) / self.stride
-
-        # height
-        diff_height = self.in_height - self.k_height
-        out_height = diff_height / self.stride + den
-
-        # width
-        diff_width = self.in_width - self.k_width
-        out_width = diff_width / self.stride + den
-
-        return int(out_height), int(out_width)
-        
-    def _resize_image(self, A):
-        """
-        Transforms the image with dimensions, m, number of channels,
-        image height and image width into a 2D dimension like in 
-        order to compute faster the forward propagation.
-
-        As an example, if we have an A (input) of size 
-        (100, 1, 10, 10) and a kernel of size (2, 2) then we would
-        have a new matrix of size (2 * 2, 100 * 1 * 10 * 10)
-
-        Parameters
-        ----------
-        A : numpy array
-            Image.
-        
-        Returns
-        -------
-        A_resize : numpy array
-            Image resized.
-        """
-        # pad image
-        constpad = ConstantPad(
-            self.padding, dim=2, constant=self.padding_constant
-        )
-        A_padded = constpad.pad(A)
-        # resize image
-        channels_i, height_i, width_i = self._index_resize()
-        new_shape = self.k_height * self.k_width * self.in_channels
-
-        A_resize = A_padded[:, channels_i, height_i, width_i]
-        A_resize = A_resize.transpose(1, 2, 0).reshape(new_shape, -1)
-
-        return A_resize
-
-    def _index_resize(self):
-        """
-        Select the index to reshape the image into a 2D matrix.
-
-        Returns
-        -------
-        channels_i : numpy.array
-        height_i : numpy.array
-        width_i : numpy.array
-        """ 
-        self.out_height, self.out_width = self._get_size_out()
-
-        # height
-        height_i0 = np.repeat(np.arange(self.k_height), self.k_width)
-        height_i0 = np.tile(height_i0, self.in_channels)
-
-        height_i1 = np.repeat(
-            np.arange(self.out_height), self.out_width
-        )
-        height_i1 *= self.stride
-        self.height_i = height_i0.reshape(-1, 1) + height_i1
-
-        # width 
-        height_channel = self.k_height * self.in_channels
-        width_i0 = np.tile(np.arange(self.k_width), height_channel)
-
-        width_i1 = np.tile(
-            np.arange(self.out_width), self.out_height
-        )
-        width_i1 *= self.stride
-        self.width_i = width_i0.reshape(-1, 1) + width_i1 
-
-        # channels
-        k_square = self.k_height * self.k_width
-        channels_i = np.repeat(np.arange(self.in_channels), k_square)
-        self.channels_i = channels_i.reshape(-1, 1)
-
-        return self.channels_i, self.height_i, self.width_i
-
-    def _resize_matrix(self, dA_resize):
-        """
-        Transforms the 2D matrix size back to the image size.
-
-        Parameters
-        ----------
-        dA_resize : numpy.array
-
-        Returns
-        -------
-        Matrix with the image like size.
-        """
-        H_padded = self.in_height + 2 * self.padding
-        W_padded = self.in_width + 2 * self.padding
-
-        new_shape = (self.m, self.in_channels, H_padded, W_padded)
-        A_padded = np.zeros(new_shape)
-
-        shape_len = self.in_channels * self.k_height * self.k_width
-        dA_resize = dA_resize.reshape(shape_len, -1, self.m)
-        dA_resize = dA_resize.transpose(2, 0, 1)
-
-        indices = (
-            slice(None), self.channels_i, self.height_i, self.width_i
-        )
-        np.add.at(A_padded, indices , dA_resize)
-
-        if self.padding == 0:
-            return A_padded
-
-        return A_padded[
-            :, 
-            :, 
-            self.padding:-self.padding, 
-            self.padding:-self.padding
-        ]
