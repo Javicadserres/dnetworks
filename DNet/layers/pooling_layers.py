@@ -48,7 +48,7 @@ class MaxPooling2D(ConvBase):
         """
         super(MaxPooling2D, self).forward(A)
 
-        self.A_reshape = A.reshape(
+        self.A_reshape = self.A.reshape(
             self.m * self.in_channels, 1, self.in_height, self.in_width
         )
         self.A_resize = self._resize_image(self.A_reshape)
@@ -133,7 +133,7 @@ class AveragePooling2D(ConvBase):
         """
         super(AveragePooling2D, self).forward(A)
 
-        self.A_reshape = A.reshape(
+        self.A_reshape = self.A.reshape(
             self.m * self.in_channels, 1, self.in_height, self.in_width
         )
         self.A_resize = self._resize_image(self.A_reshape)
@@ -163,7 +163,7 @@ class AveragePooling2D(ConvBase):
         """
         super(AveragePooling2D, self).backward(dZ)
 
-        dZ_flat = dZ.transpose(2, 3, 0, 1).ravel()
+        dZ_flat = self.dZ.transpose(2, 3, 0, 1).ravel()
         equal_weight = dZ_flat / (self.k_height * self.k_width)
 
         back_A_resize = np.ones(self.A_resize.shape) * equal_weight
