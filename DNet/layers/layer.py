@@ -2,6 +2,7 @@ import numpy as np
 from module import Base
 from layers.padding_layers import ConstantPad
 
+
 class ConvBase(Base):
     """
     Main class for convolutional layers.
@@ -60,7 +61,7 @@ class ConvBase(Base):
             next layer.
         """
         self.dZ = dZ.T
-        
+
         pass
 
     def _get_size_out(self):
@@ -111,15 +112,15 @@ class ConvBase(Base):
         )
         A_padded = constpad.pad(A)
         # resize image
-        channels_i, height_i, width_i = self._index_resize(A)
+        channels_i, height_i, width_i = self._index_resize()
         A_resize = A_padded[:, channels_i, height_i, width_i]
 
-        new_shape = self.k_height * self.k_width
+        new_shape = self.k_height * self.k_width * self.channel
         A_resize = A_resize.transpose(1, 2, 0).reshape(new_shape, -1)
 
         return A_resize
 
-    def _index_resize(self, A):
+    def _index_resize(self):
         """
         Select the index to reshape the image into a 2D matrix.
 
@@ -129,12 +130,11 @@ class ConvBase(Base):
         height_i : numpy.array
         width_i : numpy.array
         """ 
-        _, in_channels, _, _ = A.shape
         self.out_height, self.out_width = self._get_size_out()
 
         # height
         height_i0 = np.repeat(np.arange(self.k_height), self.k_width)
-        height_i0 = np.tile(height_i0, in_channels)
+        height_i0 = np.tile(height_i0, self.channel)
 
         height_i1 = np.repeat(
             np.arange(self.out_height), self.out_width
@@ -143,7 +143,7 @@ class ConvBase(Base):
         self.height_i = height_i0.reshape(-1, 1) + height_i1
 
         # width 
-        height_channel = self.k_height * in_channels
+        height_channel = self.k_height * self.channel
         width_i0 = np.tile(np.arange(self.k_width), height_channel)
 
         width_i1 = np.tile(
@@ -154,7 +154,7 @@ class ConvBase(Base):
 
         # channels
         k_square = self.k_height * self.k_width
-        channels_i = np.repeat(np.arange(in_channels), k_square)
+        channels_i = np.repeat(np.arange(self.channel), k_square)
         self.channels_i = channels_i.reshape(-1, 1)
 
         return self.channels_i, self.height_i, self.width_i
@@ -173,11 +173,15 @@ class ConvBase(Base):
         """
         H_padded = self.in_height + 2 * self.padding
         W_padded = self.in_width + 2 * self.padding
+        
+        m_channel = self.m * self.in_channels / self.channel
+        m_channel = int(m_channel)
+ 
+        A_padded = np.zeros(
+            (m_channel, self.channel, H_padded, W_padded)
+        )
 
-        m_channel = self.m * self.in_channels
-        A_padded = np.zeros((m_channel, 1, H_padded, W_padded))
-
-        shape_len = self.k_height * self.k_width
+        shape_len = self.k_height * self.k_width * self.channel
         dA_resize = dA_resize.reshape(shape_len, -1, m_channel)
         dA_resize = dA_resize.transpose(2, 0, 1)
 

@@ -29,6 +29,7 @@ class MaxPooling2D(ConvBase):
         super(MaxPooling2D, self).__init__(
             kernel_size, stride, padding, padding_constant
         )
+        self.channel = 1
         self.type = 'MaxPooling'  
     
     def forward(self, A):
@@ -113,6 +114,7 @@ class AveragePooling2D(ConvBase):
         super(AveragePooling2D, self).__init__(
             kernel_size, stride, padding, padding_constant
         )
+        self.channel = 1
         self.type = 'AveragePooling'  
     
     def forward(self, A):

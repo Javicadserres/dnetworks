@@ -38,9 +38,10 @@ class Conv2D(ConvBase):
         self.weights, self.bias = self._initialize_parameters(
                 in_channels, out_channels
         )
-        self.oparams = None
         self.in_channels = in_channels
+        self.channel = in_channels
         self.out_channels = out_channels
+        self.oparams = None
         self.type = 'Convolutional'  
     
     def forward(self, A):
