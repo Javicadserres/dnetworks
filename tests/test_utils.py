@@ -42,7 +42,7 @@ def test_parameters_linearlayer():
     bias = np.array([[0.5], [0.5]])
 
     A = np.array([[-5], [20], [10]])
-    dZ = np.array([-1, 2])
+    dZ = np.array([[-1], [2]])
 
     return weights, bias, A, dZ
 
