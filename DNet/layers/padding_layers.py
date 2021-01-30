@@ -32,14 +32,14 @@ class ConstantPad:
         """
         self.tuples = self._get_tuples(X, self.padding, self.dim)
 
-        self.padded = np.pad(
+        padded = np.pad(
             X, 
             self.tuples, 
             mode='constant', 
             constant_values=self.constant
         ) 
 
-        return self.padded
+        return padded
    
     def _int2tuple(self, padding):
         """
