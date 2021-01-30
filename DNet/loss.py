@@ -32,7 +32,7 @@ class BinaryCrossEntropyLoss(Base):
 
         m = len(self.Y)
 
-        sub1 = np.dot(self.Y, np.log(self.Y_hat).T)
+        sub1 = np.dot(self.Y, np.log(self.Y_hat + self.eps).T)
         sub2 = np.dot(1 - self.Y, np.log(1 + self.eps - self.Y_hat).T)
 
         loss = - (1./m) * (sub1 + sub2)
@@ -48,7 +48,7 @@ class BinaryCrossEntropyLoss(Base):
         grad : numpy.array
             Array containg the gradients of the weights.
         """
-        neg = np.divide(self.Y, self.Y_hat)
+        neg = np.divide(self.Y, self.Y_hat + self.eps)
         pos = np.divide(1 - self.Y, 1 + self.eps - self.Y_hat)
         grad = - (neg - pos)
 
