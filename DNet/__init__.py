@@ -4,3 +4,4 @@ from . import model
 from . import module
 from . import optimizers
 from . import layers
+from . import tests
