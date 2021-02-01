@@ -1,3 +1,4 @@
+import DNet
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -5,8 +6,8 @@ from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
 from model import NNet
 from layers.linear_layers import LinearLayer
-from activations import ReLU, Sigmoid, LeakyReLU, Tanh
-from loss import BinaryCrossEntropyLoss
+from layers.activation_layers import ReLU, Sigmoid, LeakyReLU, Tanh
+from layers.loss_layers import BinaryCrossEntropyLoss
 from optimizers import SGD, RMSprop, Adam
 
 # initialize the parameters of the dataset

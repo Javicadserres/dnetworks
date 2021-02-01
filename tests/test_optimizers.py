@@ -1,6 +1,8 @@
 import numpy as np
-from DNet.optimizers import SGD, RMSprop, Adam
-from tests.test_utils import test_parameters_optimizers
+import DNet
+
+from DNet import SGD, RMSprop, Adam
+from .test_utils import test_parameters_optimizers
 
 
 def test_sgd():

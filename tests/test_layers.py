@@ -1,10 +1,10 @@
 import numpy as np
+import DNet
 
-from DNet.layers.linear_layers import LinearLayer
-from DNet.layers.padding_layers import ConstantPad
-from DNet.layers.convolutional_layers import Conv2D
-from DNet.layers.pooling_layers import MaxPooling2D, AveragePooling2D
-from tests.test_utils import (
+from DNet.layers import (
+    LinearLayer, ConstantPad, Conv2D, MaxPooling2D, AveragePooling2D
+)
+from .test_utils import (
     test_parameters_linearlayer, test_parameters_convolution
 )
 

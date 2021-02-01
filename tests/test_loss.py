@@ -1,6 +1,7 @@
 import numpy as np
+import DNet
 
-from DNet.loss import (
+from DNet.layers import (
     BinaryCrossEntropyLoss,
     MSELoss,
     MAELoss,

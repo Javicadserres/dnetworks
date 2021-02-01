@@ -1,5 +1,5 @@
 import numpy as np
-from module import Base
+from .base import Base
 
 
 class LinearLayer(Base):

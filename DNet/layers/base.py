@@ -1,6 +1,19 @@
 import numpy as np
-from module import Base
-from layers.padding_layers import ConstantPad
+from .padding_layers import ConstantPad
+
+
+"Main class"
+
+class Base:
+    def __init__(self):
+        pass
+
+    def forward(self):
+        pass
+
+    def backward(self):
+        pass
+
 
 
 class ConvBase(Base):

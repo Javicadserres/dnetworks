@@ -1,7 +1,6 @@
-from . import activations
-from . import loss
 from . import model
-from . import module
 from . import optimizers
 from . import layers
-from . import tests
+
+from .optimizers import SGD, RMSprop, Adam
+from .model import NNet

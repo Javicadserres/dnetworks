@@ -1,6 +1,7 @@
 import numpy as np
+import DNet
 
-from DNet.activations import (
+from DNet.layers import (
     ReLU, Sigmoid, Tanh, LeakyReLU, Softmax
 )
 
@@ -26,7 +27,7 @@ def test_sigmoid():
     """
     Tests Sigmoid activation class.
     """
-    Z = np.array([1, -1, -1])
+    Z = np.array([1, -1, 0])
     dA = np.array([2, 3, 5])
 
     expected_A = np.array([0.73105858, 0.26894142, 0.5])
@@ -38,8 +39,8 @@ def test_sigmoid():
 
     np.testing.assert_almost_equal(expected_A, obtained_A)
     np.testing.assert_almost_equal(expected_dZ, obtained_dZ)
-    
 
+    
 def test_tanh():
     """
     Tests hyperbolic tangent activation class.
@@ -86,7 +87,7 @@ def test_softmax():
     expected_A = np.array([[0.57611688], [0.21194156], [0.21194156]])
     expected_dZ = np.array([[-0.48841244], [0.03226466], [0.45614778]])
 
-    activation = LeakyReLU()
+    activation = Softmax()
     obtained_A = activation.forward(Z)
     obtained_dZ = activation.backward(dA)
 

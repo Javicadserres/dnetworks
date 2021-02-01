@@ -1,5 +1,5 @@
 import numpy as np
-from layers.layer import ConvBase
+from .base import ConvBase
 
 
 class MaxPooling2D(ConvBase):

@@ -1,7 +1,7 @@
 import numpy as np 
 
-from module import Base
-from activations import Softmax
+from .base import Base
+from .activation_layers import Softmax
 
 
 class BinaryCrossEntropyLoss(Base):
