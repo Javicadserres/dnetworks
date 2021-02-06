@@ -5,6 +5,15 @@ from .base import Base
 class Flatten(Base):
     """
     Flattens a contiguous range of dims into a vector.
+
+    Example
+    -------
+    >>> input numpy as np
+    >>> from DNet.layers import Flatten
+
+    >>> input = np.zeros((2, 2, 1, 4))
+    >>> flat = Flatten()
+    >>> vector = flat.forward(input)
     """
     def __init__(self):
         self.type = 'Flatten'
@@ -22,15 +31,7 @@ class Flatten(Base):
         Returns
         -------
         Z : numpy.array
-            Reshaped array
-        
-        Example
-        -------
-        >> from flatten_layer import Flatten
-
-        >> dim_array = np.zeros((2, 2, 1, 4))
-        >> flat = Flatten()
-        >> vector = flat.forward(dim_array)
+            Reshaped array.
         """
         self.A = A
         self.Z = A.reshape(-1, self.A.shape[-1])

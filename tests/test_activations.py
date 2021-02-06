@@ -59,14 +59,14 @@ def test_tanh():
     np.testing.assert_almost_equal(expected_dZ, obtained_dZ)
 
 
-def test_leakyrely():
+def test_leakyrelu():
     """
     Tests Leaky ReLU activation class.
     """
     Z = np.array([1, -1, 0])
     dA = np.array([2, 3, 5])
 
-    expected_A = np.array([1, 0, 0])
+    expected_A = np.array([1, -0.01, 0])
     expected_dZ = np.array([2, 0.03, 0.05])
 
     activation = LeakyReLU()

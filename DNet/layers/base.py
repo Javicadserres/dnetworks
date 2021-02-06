@@ -1,5 +1,5 @@
 import numpy as np
-from .padding_layers import ConstantPad
+from .padding import ConstantPad
 
 class Base(object):
     """

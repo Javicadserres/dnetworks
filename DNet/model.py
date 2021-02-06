@@ -1,6 +1,7 @@
 "Model Class"
 from DNet.layers import Base
 
+
 class NNet(Base):
     """
     Class containing the structure to create a model.

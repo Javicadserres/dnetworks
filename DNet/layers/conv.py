@@ -6,6 +6,38 @@ class Conv2D(ConvBase):
     """
     Applies a 2D convolution over an input signal composed of several
     input planes.
+
+    The formula of the convolution can be described as:
+
+    .. math::
+        \text{out}(C_{\text{out}_j}, N_i) = \text{bias}(C_{\text{out}_j}) +
+        \sum_{k = 0}^{C_{\text{in}} - 1} \text{weight}(k, C_{\text{out}_j}) \star \text{input}(k, N_i)
+
+    where :math:`\star` is the valid 2D `cross-correlation` operator,
+    :math:`N` is a batch size and :math:`C` denotes a number of 
+    channels. 
+
+    References
+    ----------
+    [1] PyTorch - CONV2D:
+        https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html#torch.nn.Conv2d
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from DNet.layers import Conv2D
+
+    >>> model = Conv2D(
+            in_channels=1, 
+            out_channels=1, 
+            kernel_size=(2, 2), 
+            stride=1, 
+            padding=0
+        )
+    >>> input = np.random.randn(3, 3, 1, 1)
+    >>> output = model.forward(input)
+    >>> output.shape
+    (2, 2, 1, 1)
     """
     def __init__(
         self, 
@@ -23,7 +55,7 @@ class Conv2D(ConvBase):
             Number of channels in the input image.
         out_channels : int
             Number of channels produced by the convolution
-        kernel_size : int, tuple
+        kernel_size : tuple
             Size of the convolving kernel.
         stride : int
             Stride of the convolution.
@@ -64,7 +96,7 @@ class Conv2D(ConvBase):
         Parameters
         ----------
         A : numpy.array
-            Input image.
+            Input image. With dimensions (W, H, channels, N).
 
         Returns
         -------

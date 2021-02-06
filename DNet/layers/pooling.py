@@ -7,7 +7,19 @@ class MaxPooling2D(ConvBase):
     Applies a 2D max pooling over an input signal composed of several
     input planes.
 
-    This layer walks through the input matrix computing the maximum.
+    This layer walks through the input matrix (with a given kernel 
+    size) computing the maximum.
+
+    Example
+    -------
+    >>> import numpy as np
+    >>> from DNet.layers import MaxPooling2D
+
+    >>> model = MaxPooling2D(kernel_size=(2, 2), stride=1, padding=0)
+    >>> input = np.random.randn(3, 3, 1, 1)
+    >>> output = model.forward(input)
+    >>> output.shape
+    (2, 2, 1, 1)
     """
     def __init__(
         self, 
@@ -19,7 +31,7 @@ class MaxPooling2D(ConvBase):
         """
         Parameters
         ----------
-        kernel_size : int, tuple
+        kernel_size : tuple
             Size of the convolving kernel.
         stride : int
             Stride of the convolution.
@@ -102,6 +114,20 @@ class AveragePooling2D(ConvBase):
     """
     Applies a 2D max pooling over an input signal composed of several
     input planes.
+
+    This layer walks through the input matrix (with a given kernel 
+    size) computing the mean.
+
+    Example
+    -------
+    >>> import numpy as np
+    >>> from DNet.layers import AveragePooling2D
+
+    >>> model = MaxPooling2D(kernel_size=(2, 2), stride=1, padding=0)
+    >>> input = np.random.randn(3, 3, 1, 1)
+    >>> output = model.forward(input)
+    >>> output.shape
+    (2, 2, 1, 1)
     """
     def __init__(
         self, 
@@ -113,7 +139,7 @@ class AveragePooling2D(ConvBase):
         """
         Parameters
         ----------
-        kernel_size : int, tuple
+        kernel_size : tuple
             Size of the convolving kernel.
         stride : int
             Stride of the convolution.

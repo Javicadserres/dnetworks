@@ -5,6 +5,26 @@ from .base import Base
 class LinearLayer(Base):
     """
     Class that implements a Linear layer.
+
+    The formula of the forward propagation is:
+
+    .. math::
+        \begin{aligned}
+            Y & = w * X + b,
+        \end{aligned}
+
+    where :math:`w`, :math:`X`, :math:`b` and :math:`Y` denote the 
+    parameters, input, bias  and output respectively.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from DNet.layers import LinearLayer
+    >>> model = LinearLayer(5, 2)
+    >>> input = np.random.randn(5, 100)
+    >>> output = model.forward(input)
+    >>> output.shape
+    (2, 100)
     """
     def __init__(self, input_dim, output_dim):
         """

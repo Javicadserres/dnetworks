@@ -2,14 +2,14 @@ import numpy as np
 import DNet
 
 from DNet.layers import (
-    BinaryCrossEntropyLoss,
+    BCELoss,
     MSELoss,
     MAELoss,
     CrossEntropyLoss
 )
 
 
-def test_binarycrossentropyloss():
+def test_bceloss():
     """
     Tests Binary Cross Entropy loss class.
     """
@@ -19,7 +19,7 @@ def test_binarycrossentropyloss():
     expected_loss = 0.13862943611198777
     expected_grad = np.array([-1., -2., 1., -1.,  1.])
 
-    loss = BinaryCrossEntropyLoss()
+    loss = BCELoss()
     obtained_loss = loss.forward(Y_hat, Y)
     obtained_grad = loss.backward()
 
