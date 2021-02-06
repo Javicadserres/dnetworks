@@ -6,6 +6,8 @@ class MaxPooling2D(ConvBase):
     """
     Applies a 2D max pooling over an input signal composed of several
     input planes.
+
+    This layer walks through the input matrix computing the maximum.
     """
     def __init__(
         self, 
@@ -25,6 +27,15 @@ class MaxPooling2D(ConvBase):
             Dimension of the pad added to both sides of the input. 
         padding_constant : int, default=0
             Number added to the pad. 
+
+        Attributes
+        -----------
+        A_resize : numpy.array
+            Input image A, resized. 
+            As an example, if we have an A (input) of size 
+            (10, 10, 1, 100) and a kernel of size (2, 2) then we
+            would have a new matrix of size 
+            (2 * 2, 100 * 1 * 10 * 10).
         """
         super(MaxPooling2D, self).__init__(
             kernel_size, stride, padding, padding_constant
@@ -39,7 +50,7 @@ class MaxPooling2D(ConvBase):
         Parameters
         ----------
         A : numpy.array
-            Input image.
+            Input image. With dimensions (width, height, deep, N).
 
         Returns
         -------
@@ -61,7 +72,7 @@ class MaxPooling2D(ConvBase):
 
         return self.Z.T
 
-    def backward(self, dZ): # cambiar a dZ
+    def backward(self, dZ):
         """
         Computes the backward propagation of the convolutional layer.
 
@@ -110,6 +121,15 @@ class AveragePooling2D(ConvBase):
             Dimension of the pad added to both sides of the input. 
         padding_constant : int, default=0
             Number added to the pad. 
+
+        Attributes
+        -----------
+        A_resize : numpy.array
+            Input image A, resized. 
+            As an example, if we have an A (input) of size 
+            (10, 10, 1, 100) and a kernel of size (2, 2) then we
+            would have a new matrix of size 
+            (2 * 2, 100 * 1 * 10 * 10).
         """
         super(AveragePooling2D, self).__init__(
             kernel_size, stride, padding, padding_constant
@@ -124,7 +144,7 @@ class AveragePooling2D(ConvBase):
         Parameters
         ----------
         A : numpy.array
-            Input image.
+            Input image. With dimensions (width, height, deep, N).
 
         Returns
         -------

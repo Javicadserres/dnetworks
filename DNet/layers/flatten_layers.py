@@ -46,7 +46,6 @@ class Flatten(Base):
         dA : numpy.array
             Array containing the gradientes to be backpropagated.
 
-
         Returns
         -------
         dZ : numpy.array

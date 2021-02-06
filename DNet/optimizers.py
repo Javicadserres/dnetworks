@@ -39,6 +39,9 @@ class SGD:
             Updated weigths of the given layer.
         bias : numpy.array
             Updated bias of the given layer.
+        (V_dW, V_db) : tuple
+            Tuple of ints containing the velocities for the weights
+            and biases.
         """
         if velocities is None: velocities = (0, 0)
 
@@ -102,7 +105,7 @@ class RMSprop:
             Updated weigths of the given layer.
         bias : numpy.array
             Updated bias of the given layer.
-        squares : tuple
+        (S_dW, S_db) : tuple
             Tuple containing the square to compute the gradient
             descent with momentum.
         """
@@ -169,6 +172,11 @@ class Adam:
             Updated weigths of the given layer.
         bias : numpy.array
             Updated bias of the given layer.
+        vel_square : tuple
+            Tuple of ints containing:
+            1. The velocities for the weights and biases.
+            2. The squares for the weights and biases.
+            3. The current epoch.
         """
         if vel_square is None:
             V_dW, V_db, S_dW, S_db, epoch = (0, 0, 0, 0, 1)

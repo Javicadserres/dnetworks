@@ -31,6 +31,19 @@ class Conv2D(ConvBase):
             Dimension of the pad added to both sides of the input. 
         padding_constant : int, default=0
             Number added to the pad. 
+
+        Atributes
+        ---------
+        weights : numpy.array
+            Weight parameters of the layer.
+        bias : numpy.array
+            Bias parameters of the layer.
+        A_resize : numpy.array
+            Input image A, resized.
+            As an example, if we have an A (input) of size 
+            (10, 10, 1, 100) and a kernel of size (2, 2) then we
+            would have a new matrix of size 
+            (2 * 2, 100 * 1 * 10 * 10).
         """
         super(Conv2D, self).__init__(
             kernel_size, stride, padding, padding_constant
@@ -84,7 +97,8 @@ class Conv2D(ConvBase):
         Returns
         -------
         dA : numpy.array
-            The gradient of the convolutional layer.
+            The gradient of the input image with respect to the 
+            current layer.
         """
         super(Conv2D, self).backward(dZ)
         # bias

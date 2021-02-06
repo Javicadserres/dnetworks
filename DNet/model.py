@@ -4,6 +4,15 @@ from DNet.layers import Base
 class NNet(Base):
     """
     Class containing the structure to create a model.
+
+    Atributes
+    ---------
+    layers : list
+        List of layers.
+    losses : list
+        List of losses.
+    grad : numpy.array
+        Gradients of the current epoch and layer.
     """
     def __init__(self):
         """
@@ -70,6 +79,11 @@ class NNet(Base):
         -------
         error : numpy.array
             The error of the model.
+
+        Atributes
+        ---------
+        grad : numpy.array
+            Gradient of the layer.
 
         Examples
         --------

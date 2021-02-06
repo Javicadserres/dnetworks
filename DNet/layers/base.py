@@ -1,19 +1,38 @@
 import numpy as np
 from .padding_layers import ConstantPad
 
+class Base(object):
+    """
+    Main class for all the neural network layers. The models should
+    also subclass this class.
 
-"Main class"
+    Example
+    -------
+    >>> import numpy as np
+    >>> from DNet.layers import Base
 
-class Base:
+    >>> class TanhModel(Base):
+         def __init__(self, input_dim, output_dim):
+            self.input_dim = input_dim
+            self.output_dim = output_dim
+        def forward(self, X):
+            A = np.tanh(X)
+            return A
+    """
     def __init__(self):
-        pass
+        raise NotImplementedError()
 
     def forward(self):
-        pass
+        """
+        Computes the forward propagation of the layer.
+        """
+        raise NotImplementedError()
 
     def backward(self):
-        pass
-
+        """
+        Computes the backward propagation of the layer. 
+        """
+        raise NotImplementedError()
 
 
 class ConvBase(Base):

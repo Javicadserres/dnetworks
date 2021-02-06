@@ -27,7 +27,7 @@ class ConstantPad:
 
         Parameters
         ----------
-        X : np.array
+        X : numpy.array
             Input
         """
         self.tuples = self._get_tuples(X, self.padding, self.dim)
@@ -65,8 +65,8 @@ class ConstantPad:
 
         Parameters
         ----------
-        X : np.array
-            Input
+        X : numpy.array
+            Input.
         padding : int, tuple
             The size of the padding. If is int, uses the same padding in 
             all boundaries.
