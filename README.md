@@ -1,3 +1,7 @@
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Javicadserres/DNet?label=VERSION&style=for-the-badge)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Javicadserres/DNet?style=for-the-badge)
+![GitHub issues](https://img.shields.io/github/issues/Javicadserres/DNet?style=for-the-badge)
+
 # DNet
 Deep Neural Network framework implementation with numpy.
 
