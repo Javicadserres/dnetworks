@@ -1,9 +1,19 @@
 "Model Class"
-from module import Base
+from DNet.layers import Base
+
 
 class NNet(Base):
     """
     Class containing the structure to create a model.
+
+    Atributes
+    ---------
+    layers : list
+        List of layers.
+    losses : list
+        List of losses.
+    grad : numpy.array
+        Gradients of the current epoch and layer.
     """
     def __init__(self):
         """
@@ -55,9 +65,9 @@ class NNet(Base):
 
         return pred 
     
-    def cost(self, Y, method):
+    def loss(self, Y, method):
         """
-        Compute the cost using a given loss method.
+        Compute the loss using a given loss method.
 
         Parameters
         ----------
@@ -71,12 +81,17 @@ class NNet(Base):
         error : numpy.array
             The error of the model.
 
+        Atributes
+        ---------
+        grad : numpy.array
+            Gradient of the layer.
+
         Examples
         --------
         >>> from DNet.loss import BinaryCrossEntropyLoss
 
-        >>> loss = BinaryCrossEntropyLoss()
-        >>> cost = model.cost(y_train, loss)
+        >>> loss_function = BinaryCrossEntropyLoss()
+        >>> cost = model.loss(y_train, loss_function)
         """
         error = method.forward(self.pred, Y)
         self.grad = method.backward()

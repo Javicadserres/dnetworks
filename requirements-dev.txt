@@ -1,3 +1,4 @@
 -r requirements.txt
+-r requirements-example.txt
 
 pytest==6.2.2

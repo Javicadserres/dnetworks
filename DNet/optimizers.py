@@ -4,14 +4,38 @@ import numpy as np
 class SGD:
     """
     Class that implements the gradient descent algorithm.
+
+    The formula (with momentum) can be expressed as:
+
+    .. math::
+        \begin{aligned}
+            v_{t+1} & = \beta * v_{t} + (1 - \beta) * g_{t+1}, \\
+            w_{t+1} & = w_{t} - \text{lr} * v_{t+1},
+        \end{aligned}
+
+    where :math:`w`, :math:`g`, :math:`v` and :math:`\beta` denote the 
+    parameters, gradient, velocity, and beta respectively.
+
+    References
+    ----------
+    .. [1] Wikipedia - Stochastic gradient descent:
+       https://en.wikipedia.org/wiki/Stochastic_gradient_descent
+    
+    .. [2] Sutskever, Ilya, et al. "On the importance of 
+       initialization and momentum in deep learning." International
+       conference on machine learning. PMLR, 2013.
+       http://www.cs.toronto.edu/~hinton/absps/momentum.pdf
+
+    .. [3] PyTorch - Stochastic gradient descent:
+       https://pytorch.org/docs/stable/optim.html
     """
     def __init__(self, lr=0.0075, beta=0.9):
         """
         Parameters
         ----------
-        lr : int
+        lr : int, default: 0.0075
             Learing rate to use for the gradient descent.
-        beta : int
+        beta : int, default: 0.9
             Beta parameter.
         """
         self.beta = beta
@@ -39,6 +63,9 @@ class SGD:
             Updated weigths of the given layer.
         bias : numpy.array
             Updated bias of the given layer.
+        (V_dW, V_db) : tuple
+            Tuple of ints containing the velocities for the weights
+            and biases.
         """
         if velocities is None: velocities = (0, 0)
 
@@ -67,14 +94,37 @@ class SGD:
 class RMSprop:
     """
     Class that implements the RMSprop algorithm.
+
+    The formula can be expressed as:
+
+    .. math::
+        \begin{aligned}
+            s_{t+1} & = \beta * s_{t} + (1 - \beta) * g_{t+1}^2, \\
+            w_{t+1} & = w_{t} - \text{lr} * \frac{g_{t+1}}{\sqrt{s_{t+1}}},
+        \end{aligned}
+
+    where :math:`w`, :math:`g`, :math:`s` and :math:`\beta` denote the 
+    parameters, gradient, moving average of the squared gradients, 
+    and beta respectively.
+
+    References
+    ----------
+    .. [1] Wikipedia - Stochastic gradient descent:
+       https://en.wikipedia.org/wiki/Stochastic_gradient_descent
+    
+    .. [2] G. Hinton - Neural networks for machine learning.
+       https://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf
+
+    .. [3] Vitaly Bushaev - Understanding RMSprop:
+       https://towardsdatascience.com/understanding-rmsprop-faster-neural-network-learning-62e116fcf29a
     """
     def __init__(self, lr=0.0075, beta=0.9):
         """
         Parameters
         ----------
-        lr : int
+        lr : int, default: 0.0075
             Learing rate to use for the gradient descent.
-        beta : int
+        beta : int, default: 0.9
             Beta parameter to compute the sqaures.
         """
         self.beta = beta
@@ -102,7 +152,7 @@ class RMSprop:
             Updated weigths of the given layer.
         bias : numpy.array
             Updated bias of the given layer.
-        squares : tuple
+        (S_dW, S_db) : tuple
             Tuple containing the square to compute the gradient
             descent with momentum.
         """
@@ -132,16 +182,42 @@ class RMSprop:
 class Adam:
     """
     Class that implements the Adaptive moment stimation algorithm.
+
+    This algorithm combines both the SGD with momentum and the 
+    RSMProp. The formula (with momentum) can be expressed as:
+
+    .. math::
+        \begin{aligned}
+            v_{t+1} & = \beta_{1} * v_{t} + (1 - \beta_{1}) * g_{t+1}, \\
+            \hat{v_{t+1}} = \frac{v_{t+1}}{1 - \beta_{1}^{epoch}} \\
+            s_{t+1} & = \beta_{2} * s_{t} + (1 - \beta_{2}) * g_{t+1}^2, \\
+            \hat{s_{t+1}} = \frac{s_{t+1}}{1 - \beta_{2}^{epoch}}
+            w_{t+1} & = w_{t} - \text{lr} * \frac{\hat{v_{t+1}}}{\sqrt{\hat{s_{t+1}}}},
+        \end{aligned}
+
+    where :math:`w`, :math:`g`, :math:`v`, :math:`s`, :math:`epoch`
+    and :math:`\beta_{1} and \beta_{2}` denote the parameters, 
+    gradient, velocities, moving average of the squared gradients, 
+    the epoch, and the betas respectively.
+
+    References
+    ----------
+    .. [1] Wikipedia - Stochastic gradient descent:
+       https://en.wikipedia.org/wiki/Stochastic_gradient_descent
+    
+    .. [2] Kingma, Diederik P., and Jimmy Ba. "Adam: A method for 
+       stochastic optimization." arXiv preprint arXiv:1412.6980 (2014).
+       https://arxiv.org/abs/1412.6980
     """
     def __init__(self, lr=0.0075, betas=(0.9, 0.99), epsilon=1e-18):
         """
         Parameters
         ----------
-        lr : int
+        lr : int, default: 0.0075
             Learing rate to use for the gradient descent.
-        betas : tuple of int
+        betas : tuple of int, default: (0.9, 0.99)
             Betas parameters.
-        epsilon : int
+        epsilon : int, default: 1e-18
         """
         self.betas = betas
         self.lr = lr
@@ -169,6 +245,11 @@ class Adam:
             Updated weigths of the given layer.
         bias : numpy.array
             Updated bias of the given layer.
+        vel_square : tuple
+            Tuple of ints containing:
+            1. The velocities for the weights and biases.
+            2. The squares for the weights and biases.
+            3. The current epoch.
         """
         if vel_square is None:
             V_dW, V_db, S_dW, S_db, epoch = (0, 0, 0, 0, 1)

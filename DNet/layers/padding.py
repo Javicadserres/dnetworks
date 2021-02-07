@@ -4,6 +4,17 @@ import numpy as np
 class ConstantPad:
     """
     Pads the input tensor boundaries with a constant value.
+
+    Example
+    -------
+    >>> import numpy as np
+    >>> from DNet.layers import ConstantPad
+    
+    >>> input = np.ones(shape=(2, 2))
+    >>> model = ConstantPad(padding=1, dim=2, constant=0)
+    >>> output = model.pad(input)
+    >>> output.shape
+    (4, 4)
     """
     def __init__(self, padding, dim, constant):
         """
@@ -27,7 +38,7 @@ class ConstantPad:
 
         Parameters
         ----------
-        X : np.array
+        X : numpy.array
             Input
         """
         self.tuples = self._get_tuples(X, self.padding, self.dim)
@@ -65,8 +76,8 @@ class ConstantPad:
 
         Parameters
         ----------
-        X : np.array
-            Input
+        X : numpy.array
+            Input.
         padding : int, tuple
             The size of the padding. If is int, uses the same padding in 
             all boundaries.

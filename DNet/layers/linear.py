@@ -1,10 +1,30 @@
 import numpy as np
-from module import Base
+from .base import Base
 
 
 class LinearLayer(Base):
     """
     Class that implements a Linear layer.
+
+    The formula of the forward propagation is:
+
+    .. math::
+        \begin{aligned}
+            Y & = w * X + b,
+        \end{aligned}
+
+    where :math:`w`, :math:`X`, :math:`b` and :math:`Y` denote the 
+    parameters, input, bias  and output respectively.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from DNet.layers import LinearLayer
+    >>> model = LinearLayer(5, 2)
+    >>> input = np.random.randn(5, 100)
+    >>> output = model.forward(input)
+    >>> output.shape
+    (2, 100)
     """
     def __init__(self, input_dim, output_dim):
         """
@@ -17,6 +37,13 @@ class LinearLayer(Base):
             Dimension of the inputs.
         output_dim : int
             Dimensions of the output.
+
+        Atributes
+        ---------
+        weights : numpy.array
+            Weight parameters of the layer.
+        bias : numpy.array
+            Bias parameters of the layer.
         """
         self.weights, self.bias = self._initialize_parameters(
                 input_dim, output_dim
@@ -32,7 +59,13 @@ class LinearLayer(Base):
         ----------
         A : numpy.array
             Input from the x variables or the output of the 
-            activations.
+            activations. The dimension should be 
+            (N_variables, N_examples).
+        
+        Returns
+        -------
+        Z : numpy.array
+            Output of the linear layer.
         """
         self.m = A.shape[-1]
         self.A = A.reshape(-1, self.m)
@@ -50,6 +83,12 @@ class LinearLayer(Base):
         dZ : numpy.array
             The gradient of the of the output with respect to the
             next layer.
+        
+        Returns
+        -------
+        dA : numpy.array
+            The gradient of the input with respect to the current 
+            layer.
         """
         self.dW = (1 / self.m) * dZ.dot(self.A.T)
         self.db = np.mean(dZ, axis=1, keepdims=True)
