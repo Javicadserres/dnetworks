@@ -3,7 +3,7 @@
 ![GitHub issues](https://img.shields.io/github/issues/Javicadserres/DNet?style=for-the-badge)
 
 # DNet
-Deep Neural Network framework implementation with numpy.
+Neural Network framework implementation with numpy.
 
 ## Installation
 Normal user:
