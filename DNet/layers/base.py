@@ -228,3 +228,59 @@ class ConvBase(Base):
         return A_padded[
             :, :, self.padding:-self.padding, self.padding:-self.padding
             ]
+
+
+class RNNBase(Base):
+    """
+    RNN base class
+    """
+    def __init__(self, input_dim, hidden_dim):
+        """
+        Initialize the parameters with the input, output and hidden
+        dimensions. 
+
+        Parameters
+        ----------
+        input_dim : int
+            Dimension of the input. 
+        hidden_dim : int
+            Number of units in the RNN cell.
+        """
+        self.input_dim = input_dim
+        self.hidden_dim = hidden_dim
+
+
+    def forward(self):
+        """
+        Computes forward propagation
+        """
+        return None
+
+    
+    def backward(self):
+        """
+        Computes backward propagation
+        """
+        return None
+
+
+    def _retrieve_parameters(self, layer, d_hidden):
+        """
+        """
+        if isinstance(d_hidden, int):
+            parameters = [0, 0]
+        else:
+            parameters = [layer.dW, layer.db]
+
+        return parameters
+
+
+    def _update_parameters(self, layer, parameters):
+        """
+        Updates parameters
+        """
+        # actualize parameters
+        layer.dW += parameters[0]
+        layer.db += parameters[1]
+
+        return layer

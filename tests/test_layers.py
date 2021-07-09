@@ -167,23 +167,21 @@ def test_rnncell():
     input = np.array([[0.86540763], [-2.3015387]])
     hidden = np.zeros((2, 1))
     combined = np.concatenate((input, hidden), axis=0)
-    weights_h, weights_o, dZ = test_parameters_rnncell()
+    weights, dZ = test_parameters_rnncell()
 
-    expected_output = np.array([[0.84215945], [0.15784055]])
-    expected_d_hidden = np.array([[-0.13050669], [-0.26152525]])
+    expected_hidden = np.array([[0.88682355], [0.99527661]])
+    expected_d_hidden = np.array([[-0.10465545], [-0.19716043]])
 
     input_dim = 2
-    output_dim = 2
     hidden_dim = 2
 
-    recurrent = RNNCell(input_dim, output_dim, hidden_dim)
-    recurrent.lineal_h.weights = weights_h
-    recurrent.lineal_o.weights = weights_o
+    recurrent = RNNCell(input_dim, hidden_dim)
+    recurrent.lineal.weights = weights
 
-    obtained_output, hidden = recurrent.forward(input, hidden)
+    obtained_hidden = recurrent.forward(input, hidden)
     obtained_d_hidden = recurrent.backward(
-        dZ=dZ, hidden=hidden, combined=combined
+        dZ=dZ, hidden=obtained_hidden, combined=combined
     )
 
-    np.testing.assert_almost_equal(expected_output, obtained_output)
+    np.testing.assert_almost_equal(expected_hidden, obtained_hidden)
     np.testing.assert_almost_equal(expected_d_hidden, obtained_d_hidden)   
