@@ -9,7 +9,7 @@ from . import activation
 
 from .conv import Conv2D
 from .flatten import Flatten
-from .base import Base, ConvBase
+from .base import Base, ConvBase, RNNBase
 from .activation import ReLU, Sigmoid, Tanh, LeakyReLU, Softmax
 from .linear import LinearLayer
 from .padding import ConstantPad
