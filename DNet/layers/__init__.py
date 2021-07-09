@@ -15,5 +15,6 @@ from .linear import LinearLayer
 from .padding import ConstantPad
 from .pooling import MaxPooling2D, AveragePooling2D
 from .loss import (
-    BCELoss, MSELoss, MAELoss, CrossEntropyLoss
+    BCELoss, MSELoss, MAELoss, CrossEntropyLoss, NLLLoss
 )
+from .recurrent import RNNCell, RNN
