@@ -61,3 +61,28 @@ def test_parameters_convolution():
     bias = np.array([[1]])
 
     return image, weights, bias
+
+
+def test_parameters_rnncell():
+    """
+    Initialize paramaters to be used in the tests.
+
+    Returns
+    -------
+    weights : numpy.array
+    bias : numpy.array
+    A : numpy.array
+    dZ : numpy.array
+    """
+    weights_h = np.array(
+        [[ 0.81217268, -0.30587821, -0.26408588, -0.53648431],
+       [ 0.43270381, -1.15076935,  0.87240588, -0.38060345]]
+    )
+    weights_o = np.array(
+        [[ 1.14858562, -0.43257711],
+       [-0.37347383, -0.75870339]]
+    )
+
+    dZ = np.array([[ 1.74481176], [-0.7612069]])
+
+    return weights_h, weights_o, dZ

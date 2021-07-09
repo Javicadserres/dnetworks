@@ -123,5 +123,5 @@ class NNet(Base):
         >>> model.optimize(optim)
         """
         for layer in reversed(self.layers):
-            if layer.type in ['Linear', 'Convolutional']: 
+            if layer.type in ['Linear', 'Convolutional', 'Recurrent']: 
                 layer.optimize(method)

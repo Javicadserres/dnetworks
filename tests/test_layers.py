@@ -1,11 +1,19 @@
+from DNet.layers.recurrent import RNNCell
 import numpy as np
 import DNet
 
 from DNet.layers import (
-    LinearLayer, ConstantPad, Conv2D, MaxPooling2D, AveragePooling2D
+    LinearLayer,
+    ConstantPad, 
+    Conv2D, 
+    MaxPooling2D, 
+    AveragePooling2D, 
+    RNNCell
 )
 from .test_utils import (
-    test_parameters_linearlayer, test_parameters_convolution
+    test_parameters_linearlayer, 
+    test_parameters_convolution, 
+    test_parameters_rnncell
 )
 
 
@@ -150,3 +158,32 @@ def test_averagepooling2d():
 
     np.testing.assert_almost_equal(expected_Z, obtained_Z)
     np.testing.assert_almost_equal(expected_dA, obtained_dA)
+
+
+def test_rnncell():
+    """
+    Tests the RNNCell class.
+    """
+    input = np.array([[0.86540763], [-2.3015387]])
+    hidden = np.zeros((2, 1))
+    combined = np.concatenate((input, hidden), axis=0)
+    weights_h, weights_o, dZ = test_parameters_rnncell()
+
+    expected_output = np.array([[0.84215945], [0.15784055]])
+    expected_d_hidden = np.array([[-0.13050669], [-0.26152525]])
+
+    input_dim = 2
+    output_dim = 2
+    hidden_dim = 2
+
+    recurrent = RNNCell(input_dim, output_dim, hidden_dim)
+    recurrent.lineal_h.weights = weights_h
+    recurrent.lineal_o.weights = weights_o
+
+    obtained_output, hidden = recurrent.forward(input, hidden)
+    obtained_d_hidden = recurrent.backward(
+        dZ=dZ, hidden=hidden, combined=combined
+    )
+
+    np.testing.assert_almost_equal(expected_output, obtained_output)
+    np.testing.assert_almost_equal(expected_d_hidden, obtained_d_hidden)   
