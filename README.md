@@ -1,33 +1,33 @@
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Javicadserres/DNet?label=VERSION&style=for-the-badge)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Javicadserres/DNet?style=for-the-badge)
-![GitHub issues](https://img.shields.io/github/issues/Javicadserres/DNet?style=for-the-badge)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Javicadserres/dnet?label=VERSION&style=for-the-badge)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Javicadserres/dnet?style=for-the-badge)
+![GitHub issues](https://img.shields.io/github/issues/Javicadserres/dnet?style=for-the-badge)
 
-# DNet
+# dnet
 Neural Network framework implementation with numpy.
 
 ## Installation
 Normal user:
 ```bash
-git clone https://github.com/Javicadserres/DNet.git
-pip install DNet/.
+git clone https://github.com/Javicadserres/dnet.git
+pip install dnet/.
 ```
 
 alternatively:
 ```bash
-git clone https://github.com/Javicadserres/DNet.git
-pip install DNet/. -r DNet/requirements.txt
+git clone https://github.com/Javicadserres/dnet.git
+pip install dnet/. -r dnet/requirements.txt
 ```
 
 Developer:
 ```bash
-git clone https://github.com/Javicadserres/DNet.git
-pip install -e DNet/. -r DNet/requirements-dev.txt
+git clone https://github.com/Javicadserres/dnet.git
+pip install -e dnet/. -r dnet/requirements-dev.txt
 ```
 
 ## Tests
 To run tests you must install the library as a `developer`.
 ```bash
-cd DNet/
+cd dnet/
 pytest -v tests/
 ```
 
@@ -40,8 +40,8 @@ import matplotlib.pyplot as plt
 
 from sklearn.datasets import load_digits
 from sklearn.model_selection import train_test_split
-from DNet.model import NNet
-from DNet.layers import (
+from dnet.model import NNet
+from dnet.layers import (
     LinearLayer, 
     ReLU, 
     CrossEntropyLoss, 
@@ -50,7 +50,7 @@ from DNet.layers import (
     AveragePooling2D,
     Flatten
 )
-from DNet.optimizers import Adam
+from dnet.optimizers import Adam
 
 
 digits = load_digits()
