@@ -21,5 +21,4 @@ setup(
     install_requires=[
         "numpy"
     ],
-    cmdclass=versioneer.get_cmdclass(),
 )
