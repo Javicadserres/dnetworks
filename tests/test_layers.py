@@ -1,8 +1,8 @@
-from DNet.layers.recurrent import RNNCell
+from dnet.layers.recurrent import RNNCell
 import numpy as np
-import DNet
+import dnet
 
-from DNet.layers import (
+from dnet.layers import (
     LinearLayer,
     ConstantPad, 
     Conv2D, 

@@ -1,7 +1,7 @@
 import numpy as np
-import DNet
+import dnet
 
-from DNet import SGD, RMSprop, Adam
+from dnet import SGD, RMSprop, Adam
 from .test_utils import test_parameters_optimizers
 
 

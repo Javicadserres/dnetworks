@@ -1,7 +1,7 @@
 import numpy as np
-import DNet
+import dnet
 
-from DNet.layers import (
+from dnet.layers import (
     BCELoss,
     MSELoss,
     MAELoss,
