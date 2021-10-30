@@ -9,7 +9,7 @@ class Flatten(Base):
     Example
     -------
     >>> input numpy as np
-    >>> from DNet.layers import Flatten
+    >>> from dnetworks.layers import Flatten
 
     >>> input = np.zeros((2, 2, 1, 4))
     >>> flat = Flatten()

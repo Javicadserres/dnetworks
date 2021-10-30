@@ -9,7 +9,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='dnet',
+    name='dnetworks',
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
     description='Deep Neural Network implementation in numpy',

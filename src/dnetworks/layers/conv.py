@@ -25,7 +25,7 @@ class Conv2D(ConvBase):
     Examples
     --------
     >>> import numpy as np
-    >>> from DNet.layers import Conv2D
+    >>> from dnetworks.layers import Conv2D
 
     >>> model = Conv2D(
             in_channels=1, 
@@ -157,7 +157,7 @@ class Conv2D(ConvBase):
 
         Parameters
         ----------
-        method : DNet.optimizers
+        method : dnetworks.optimizers
             Optimization method to use to update the parameters.
         """
         self.weights, self.bias, self.oparams = method.optim(

@@ -8,7 +8,7 @@ class ConstantPad:
     Example
     -------
     >>> import numpy as np
-    >>> from DNet.layers import ConstantPad
+    >>> from dnetworks.layers import ConstantPad
     
     >>> input = np.ones(shape=(2, 2))
     >>> model = ConstantPad(padding=1, dim=2, constant=0)

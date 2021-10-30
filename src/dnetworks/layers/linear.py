@@ -19,7 +19,7 @@ class LinearLayer(Base):
     Examples
     --------
     >>> import numpy as np
-    >>> from DNet.layers import LinearLayer
+    >>> from dnetworks.layers import LinearLayer
     >>> model = LinearLayer(5, 2)
     >>> input = np.random.randn(5, 100)
     >>> output = model.forward(input)
@@ -102,7 +102,7 @@ class LinearLayer(Base):
 
         Parameters
         ----------
-        method : DNet.optimizers
+        method : dnetworks.optimizers
             Optimization method to use to update the parameters.
         """
         self.weights, self.bias, self.oparams = method.optim(

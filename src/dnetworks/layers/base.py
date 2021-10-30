@@ -9,7 +9,7 @@ class Base(object):
     Example
     -------
     >>> import numpy as np
-    >>> from DNet.layers import Base
+    >>> from dnetworks.layers import Base
 
     >>> class TanhModel(Base):
          def __init__(self, input_dim, output_dim):

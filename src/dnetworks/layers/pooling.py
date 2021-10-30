@@ -13,7 +13,7 @@ class MaxPooling2D(ConvBase):
     Example
     -------
     >>> import numpy as np
-    >>> from DNet.layers import MaxPooling2D
+    >>> from dnetworks.layers import MaxPooling2D
 
     >>> model = MaxPooling2D(kernel_size=(2, 2), stride=1, padding=0)
     >>> input = np.random.randn(3, 3, 1, 1)
@@ -121,7 +121,7 @@ class AveragePooling2D(ConvBase):
     Example
     -------
     >>> import numpy as np
-    >>> from DNet.layers import AveragePooling2D
+    >>> from dnetworks.layers import AveragePooling2D
 
     >>> model = MaxPooling2D(kernel_size=(2, 2), stride=1, padding=0)
     >>> input = np.random.randn(3, 3, 1, 1)

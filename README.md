@@ -1,33 +1,33 @@
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Javicadserres/dnet?label=VERSION&style=for-the-badge)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Javicadserres/dnet?style=for-the-badge)
-![GitHub issues](https://img.shields.io/github/issues/Javicadserres/dnet?style=for-the-badge)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Javicadserres/dnetworks?label=VERSION&style=for-the-badge)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Javicadserres/dnetworks?style=for-the-badge)
+![GitHub issues](https://img.shields.io/github/issues/Javicadserres/dnetworks?style=for-the-badge)
 
-# dnet
+# dnetworks
 Neural Network framework implementation with numpy.
 
 ## Installation
 Normal user:
 ```bash
-git clone https://github.com/Javicadserres/dnet.git
-pip install dnet/.
+git clone https://github.com/Javicadserres/dnetworks.git
+pip install dnetworks/.
 ```
 
 alternatively:
 ```bash
-git clone https://github.com/Javicadserres/dnet.git
-pip install dnet/. -r dnet/requirements.txt
+git clone https://github.com/Javicadserres/dnetworks.git
+pip install dnetworks/. -r dnetworks/requirements.txt
 ```
 
 Developer:
 ```bash
-git clone https://github.com/Javicadserres/dnet.git
-pip install -e dnet/. -r dnet/requirements-dev.txt
+git clone https://github.com/Javicadserres/dnetworks.git
+pip install -e dnetworks/. -r dnetworks/requirements-dev.txt
 ```
 
 ## Tests
 To run tests you must install the library as a `developer`.
 ```bash
-cd dnet/
+cd dnetworks/
 pytest -v tests/
 ```
 
@@ -40,8 +40,8 @@ import matplotlib.pyplot as plt
 
 from sklearn.datasets import load_digits
 from sklearn.model_selection import train_test_split
-from dnet.model import NNet
-from dnet.layers import (
+from dnetworks.model import NNet
+from dnetworks.layers import (
     LinearLayer, 
     ReLU, 
     CrossEntropyLoss, 
@@ -50,7 +50,7 @@ from dnet.layers import (
     AveragePooling2D,
     Flatten
 )
-from dnet.optimizers import Adam
+from dnetworks.optimizers import Adam
 
 
 digits = load_digits()

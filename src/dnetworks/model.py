@@ -1,5 +1,5 @@
 "Model Class"
-from DNet.layers import Base
+from dnetworks.layers import Base
 
 
 class NNet(Base):
@@ -28,14 +28,14 @@ class NNet(Base):
 
         Parameters
         ----------
-        layer : DNet.layers or DNet.activations
+        layer : dnetworks.layers or dnetworks.activations
             The layer and/or activation to add in the model.
         
         Example
         -------
-        >>> from DNet.model import NNet
-        >>> from DNet.activations import LeakyReLU
-        >>> from DNet.layers import LinearLayer
+        >>> from dnetworks.model import NNet
+        >>> from dnetworks.activations import LeakyReLU
+        >>> from dnetworks.layers import LinearLayer
 
         >>> model = NNet()
         >>> model.add(LinearLayer(20,7))
@@ -73,7 +73,7 @@ class NNet(Base):
         ----------
         Y : numpy.array
             The real labels to predict.
-        method : DNet.loss 
+        method : dnetworks.loss 
             Loss method to use.
         
         Returns
@@ -88,7 +88,7 @@ class NNet(Base):
 
         Examples
         --------
-        >>> from DNet.loss import BinaryCrossEntropyLoss
+        >>> from dnetworks.loss import BinaryCrossEntropyLoss
 
         >>> loss_function = BinaryCrossEntropyLoss()
         >>> cost = model.loss(y_train, loss_function)
@@ -112,12 +112,12 @@ class NNet(Base):
 
         Parameters
         ----------
-        method : DNet.optimizers
+        method : dnetworks.optimizers
             Optimization method to use in order to obtain the parameters.
         
         Examples
         --------
-        >>> from DNet.optimizers import SGD
+        >>> from dnetworks.optimizers import SGD
         
         >>> optim = SGD(lr=0.0075)
         >>> model.optimize(optim)

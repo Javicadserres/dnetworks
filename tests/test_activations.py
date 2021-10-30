@@ -1,7 +1,7 @@
 import numpy as np
-import dnet
+import dnetworks
 
-from dnet.layers import (
+from dnetworks.layers import (
     ReLU, Sigmoid, Tanh, LeakyReLU, Softmax
 )
 
