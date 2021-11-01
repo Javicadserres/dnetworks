@@ -274,9 +274,7 @@ class LSTMCell(RNNBase):
         output_layer = self.sigmoid_o.forward(output_input)
 
         cell_state = forget_layer * cell_state + input_layer * tanh_layer
-
         _tanh_c = self.tanh_c.forward(cell_state)
-
         hidden = output_layer * _tanh_c
 
         return hidden, cell_state
